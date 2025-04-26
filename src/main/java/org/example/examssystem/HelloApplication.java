@@ -47,6 +47,7 @@ public class HelloApplication extends Application {
             // 5. Initialize scene (global variable)
             scene = new Scene(layeredPane, 700, 500);
             System.out.println("NOUR WAS HERE");
+            System.out.println("NOUR WAS HERE2");
             // 6. Load CSS
             try {
                 String css = getClass().getResource("/org/example/examssystem/csstest.css").toExternalForm();
