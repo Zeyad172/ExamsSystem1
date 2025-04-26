@@ -24,7 +24,7 @@ public class HelloApplication extends Application {
             // 2. Set up responsive background image
             background = new ImageView();
             try {
-                Image bgImage = new Image(new File("D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\unnamed.jpg").toURI().toString());
+                Image bgImage = new Image(new File("C:\\Users\\Noor\\IdeaProjects\\ExamsSystem2\\src\\main\\java\\org\\example\\examssystem\\unnamed.jpg").toURI().toString());
                 background.setImage(bgImage);
                 background.setPreserveRatio(false);
                 background.setSmooth(true);
@@ -34,7 +34,7 @@ public class HelloApplication extends Application {
 
             // 3. Set application icon
             try {
-                Image appIcon = new Image(new File("D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\images.png").toURI().toString());
+                Image appIcon = new Image(new File("C:\\Users\\Noor\\IdeaProjects\\ExamsSystem2\\src\\main\\java\\org\\example\\examssystem\\images.png").toURI().toString());
                 primaryStage.getIcons().add(appIcon);
             } catch (Exception e) {
                 System.err.println("Error loading application icon: " + e.getMessage());
@@ -46,7 +46,7 @@ public class HelloApplication extends Application {
 
             // 5. Initialize scene (global variable)
             scene = new Scene(layeredPane, 700, 500);
-
+            System.out.println("NOUR WAS HERE");
             // 6. Load CSS
             try {
                 String css = getClass().getResource("/org/example/examssystem/csstest.css").toExternalForm();
