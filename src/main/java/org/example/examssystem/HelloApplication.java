@@ -21,7 +21,7 @@ public class HelloApplication extends Application {
             // 2. Set up background image (absolute path)
             ImageView background = new ImageView();
             try {
-                String imagePath = "D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\unnamed.jpg";
+                String imagePath = "src/main/java/org/example/examssystem/unnamed.jpg";
                 System.out.println("Loading background from: " + imagePath);
 
                 Image bgImage = new Image(new File(imagePath).toURI().toString());
@@ -48,7 +48,7 @@ public class HelloApplication extends Application {
 
             // 5. Set application icon
             try {
-                String iconPath = "D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\images.png";
+                String iconPath = "src/main/java/org/example/examssystem/images.png";
                 Image appIcon = new Image(new File(iconPath).toURI().toString());
                 primaryStage.getIcons().add(appIcon);
                 System.out.println("Application icon set successfully from: " + iconPath);

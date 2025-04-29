@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.collections.FXCollections?>
-
 <?import java.lang.String?>
-<VBox alignment="CENTER" spacing="20" style="-fx-padding: 30; -fx-background-color: transparent;"
-      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" spacing="20" style="-fx-padding: 30; -fx-background-color: transparent;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.examssystem.HelloController">
 
    <!-- Header -->
-   <Text style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-fill: white;" text="Helwan Exams System"/>
-   <Text style="-fx-font-size: 16pt; -fx-fill: white;" text="welcome to Helwan's Exam System"/>
+   <Text style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-fill: white;" text="Helwan Exams System" />
+   <Text style="-fx-font-size: 16pt; -fx-fill: white;" text="welcome to Helwan's Exam System" />
 
    <!-- Form Grid -->
-   <GridPane alignment="CENTER" hgap="15" vgap="15" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 10; -fx-padding: 20;">
+   <GridPane alignment="CENTER" hgap="15" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 10; -fx-padding: 20;" vgap="15">
       <columnConstraints>
-         <ColumnConstraints halignment="RIGHT" minWidth="100"/>
-         <ColumnConstraints halignment="LEFT" minWidth="200"/>
+         <ColumnConstraints halignment="RIGHT" minWidth="100" />
+         <ColumnConstraints halignment="LEFT" minWidth="200" />
       </columnConstraints>
 
       <rowConstraints>
-         <RowConstraints minHeight="40"/>
-         <RowConstraints minHeight="40"/>
-         <RowConstraints minHeight="40"/>
+         <RowConstraints minHeight="40" />
+         <RowConstraints minHeight="40" />
+         <RowConstraints minHeight="40" />
       </rowConstraints>
 
       <!-- User Name -->
-      <Label text="User Name:" style="-fx-text-fill: white; -fx-font-size: 14pt;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-      <TextField promptText="Enter User Name" style="-fx-font-size: 14pt;" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+      <Label style="-fx-text-fill: white; -fx-font-size: 14pt;" text="User Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+      <TextField promptText="Enter User Name" style="-fx-font-size: 14pt;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
       <!-- Password -->
-      <Label text="Password:" style="-fx-text-fill: white; -fx-font-size: 14pt;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-      <PasswordField promptText="Enter Your Password" style="-fx-font-size: 14pt;" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+      <Label style="-fx-text-fill: white; -fx-font-size: 14pt;" text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+      <PasswordField promptText="Enter Your Password" style="-fx-font-size: 14pt;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
       <!-- Category -->
-      <Label text="Category:" style="-fx-text-fill: white; -fx-font-size: 14pt;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+      <Label style="-fx-text-fill: white; -fx-font-size: 14pt;" text="Category:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
       <ComboBox promptText="Choose the Category" style="-fx-font-size: 14pt;" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <items>
             <FXCollections fx:factory="observableArrayList">
-               <String fx:value="Student"/>
-               <String fx:value="Administrator"/>
-               <String fx:value="Professor"/>
+               <String fx:value="Student" />
+               <String fx:value="Administrator" />
+               <String fx:value="Professor" />
             </FXCollections>
          </items>
       </ComboBox>
@@ -49,7 +56,7 @@
 
    <!-- Buttons -->
    <HBox alignment="CENTER" spacing="30">
-      <Button text="Submit" style="-fx-background-color: #4CAF50; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 14pt; -fx-pref-width: 120;"/>
-      <Button text="Information" style="-fx-background-color: #3498db; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 14pt; -fx-pref-width: 140;"/>
+      <Button style="-fx-background-color: #4CAF50; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 14pt; -fx-pref-width: 120;" text="Submit" />
+      <Button style="-fx-background-color: #3498db; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 14pt; -fx-pref-width: 140;" text="Information" />
    </HBox>
 </VBox>
