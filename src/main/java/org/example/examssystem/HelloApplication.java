@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.io.File;
+import java.util.Objects;
 
 public class HelloApplication extends Application {
 
@@ -19,12 +20,12 @@ public class HelloApplication extends Application {
     public void start(Stage primaryStage) {
         try {
             // 1. Load FXML interface
-            Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/GUI.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/examssystem/GUI.fxml")));
 
             // 2. Set up responsive background image
             background = new ImageView();
             try {
-                Image bgImage = new Image(new File("D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\unnamed.jpg").toURI().toString());
+                Image bgImage = new Image(new File("src/main/java/org/example/examssystem/unnamed.jpg").toURI().toString());
                 background.setImage(bgImage);
                 background.setPreserveRatio(false);
                 background.setSmooth(true);
@@ -34,7 +35,7 @@ public class HelloApplication extends Application {
 
             // 3. Set application icon
             try {
-                Image appIcon = new Image(new File("D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\images.png").toURI().toString());
+                Image appIcon = new Image(new File("src/main/java/org/example/examssystem/images.png").toURI().toString());
                 primaryStage.getIcons().add(appIcon);
             } catch (Exception e) {
                 System.err.println("Error loading application icon: " + e.getMessage());

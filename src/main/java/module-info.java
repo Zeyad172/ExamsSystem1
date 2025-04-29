@@ -1,6 +1,7 @@
 module org.example.examssystem {
-    requires javafx.controls;
-    requires javafx.fxml;
+    requires MaterialFX;
+    requires java.sql;
+    requires mysql.connector.java;
 
 
     opens org.example.examssystem to javafx.fxml;
