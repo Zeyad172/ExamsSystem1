@@ -16,7 +16,8 @@ public class HelloApplication extends Application {
     public void start(Stage primaryStage) {
         try {
             // 1. Load FXML interface
-            Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/GUI.fxml"));
+            //Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/GUI.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/SetQuestions.fxml"));
 
             // 2. Set up background image (absolute path)
             ImageView background = new ImageView();
@@ -58,7 +59,7 @@ public class HelloApplication extends Application {
             }
 
             // 6. Configure and show stage
-            primaryStage.setTitle("Helwan Exams System");
+            primaryStage.setTitle("Helwan's Exams System");
             primaryStage.setScene(scene);
             primaryStage.setMinWidth(600);
             primaryStage.setMinHeight(400);
@@ -72,5 +73,6 @@ public class HelloApplication extends Application {
 
     public static void main(String[] args) {
         launch(args);
+
     }
 }
