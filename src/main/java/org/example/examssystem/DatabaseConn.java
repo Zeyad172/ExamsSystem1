@@ -11,9 +11,9 @@ protected Connection con;
 
 protected DatabaseConn() {}
 
-protected String url = "jdbc:mysql://localhost:3306/mydb";
-protected String user = "root";
-//protected String pass = "Elzooz3050@#";
+static protected String url = "jdbc:mysql://localhost:3306/mydb";
+static protected String user = "root";
+static protected String pass = "Elzooz3050@#";
 
 protected void createConnection() {
     try {
@@ -43,7 +43,7 @@ protected void createTable() {
 protected void getTable(String name,String password) {
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        con = DriverManager.getConnection(url,user,"Elzooz3050@");
+        con = DriverManager.getConnection(url,user,pass);
 
         System.out.println("Database connection established successfully!");
         Statement stmt = con.createStatement();

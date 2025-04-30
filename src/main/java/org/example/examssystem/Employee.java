@@ -16,8 +16,6 @@ abstract public class Employee {
          if(check_name.equals(Name)){
 
          }
-
-
 return check;
     }
 }
