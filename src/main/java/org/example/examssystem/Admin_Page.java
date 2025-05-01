@@ -92,6 +92,44 @@ public class Admin_Page {
             e.printStackTrace();
         }
     }
+    public static void searchStudent(String identifier) {
+        String sql;
+        boolean isNumeric = identifier.matches("\\d+");  // Check if input is numeric (ID)
+
+        if (isNumeric) {
+            sql = "SELECT * FROM Students WHERE ID = ?";
+        } else {
+            sql = "SELECT * FROM Students WHERE Name = ?";
+        }
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            if (isNumeric) {
+                pstmt.setInt(1, Integer.parseInt(identifier));
+            } else {
+                pstmt.setString(1, identifier);
+            }
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                System.out.println("ID: " + rs.getInt("ID"));
+                System.out.println("Name: " + rs.getString("Name"));
+                System.out.println("Password: " + rs.getString("Password"));
+                System.out.println("Probability: " + rs.getString("Probability"));
+                System.out.println("Java: " + rs.getString("Java"));
+                System.out.println("English_Reports: " + rs.getString("English_Reports"));
+                System.out.println("Logic_Design: " + rs.getString("Logic_Design"));
+                System.out.println("Electronics: " + rs.getString("Electronics"));
+                System.out.println("Worshops: " + rs.getString("Worshops"));
+            } else {
+                System.out.println("Student not found.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
         // Add a student with grades for each course
@@ -99,5 +137,6 @@ public class Admin_Page {
 
         // Add a professor with 3 subjects
         addProfessor(7, "Dr.Ali", "pass4556", Course.Electronics, Course.Worshops, Course.Probability);
+        searchStudent("Kamolia");
     }
 }
