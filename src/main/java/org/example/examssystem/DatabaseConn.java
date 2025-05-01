@@ -23,11 +23,11 @@ protected void createConnection() {
 
         System.out.println("Database connection established successfully!");
         Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM USERS");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Questions");
 
         while(rs.next()) {
-            String name = rs.getString("userscol");
-            String password = rs.getString("names");
+            String name = rs.getString("Question");
+            String password = rs.getString("Aswera");
             System.out.println(password + " " + name);
         }
         con.close();
@@ -49,10 +49,10 @@ protected void getTable(String name,String password) {
         Statement stmt = con.createStatement();
         String dbop = "INSERT INTO USER VALUES(''"+ password + "','" + name +"'')";
         stmt.execute(dbop);
-        ResultSet rs = stmt.executeQuery("SELECT * FROM USER");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Question");
         while(rs.next()) {
-            String has = rs.getString("userscol");
-            String pass = rs.getString("names");
+            String has = rs.getString("Question");
+            String pass = rs.getString("Aswera");
             System.out.println(password + " " + has);
         }
         con.close();
