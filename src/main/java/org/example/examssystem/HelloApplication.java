@@ -44,11 +44,7 @@ public class HelloApplication extends Application {
             StackPane layeredPane = new StackPane();
             layeredPane.getChildren().addAll(background, root);
 
-            // 5. Initialize scene (global variable)
-            scene = new Scene(layeredPane, 700, 500);
-            System.out.println("NOUR WAS HERE");
-            System.out.println("NOUR WAS HERE2");
-            System.out.println("elzooz");
+
             
             // 6. Load CSS
             try {
