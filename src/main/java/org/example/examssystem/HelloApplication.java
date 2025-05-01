@@ -39,11 +39,18 @@ public class HelloApplication extends Application {
             // 3. Create layered interface
             StackPane layeredPane = new StackPane();
             layeredPane.getChildren().addAll(background, root);
+
             // 4. Create scene with responsive background
             Scene scene = new Scene(layeredPane, 800, 600);
             background.fitWidthProperty().bind(scene.widthProperty());
             background.fitHeightProperty().bind(scene.heightProperty());
             // 5. Set application icon
+
+
+
+            
+            // 6. Load CSS
+
             try {
                 String iconPath = "D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\images.png";
                 Image appIcon = new Image(new File(iconPath).toURI().toString());
