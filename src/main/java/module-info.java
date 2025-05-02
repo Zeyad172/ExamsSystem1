@@ -8,6 +8,5 @@ module org.example.examssystem {
 
     opens org.example.examssystem to javafx.fxml;
     exports org.example.examssystem;
-    exports;
-    opens to
+
 }

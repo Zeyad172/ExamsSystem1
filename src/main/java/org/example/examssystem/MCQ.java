@@ -1,3 +1,4 @@
+package org.example.examssystem;
 public class MCQ  extends Question {
     public String answerA;
     public String answerB;
