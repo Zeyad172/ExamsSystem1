@@ -49,19 +49,29 @@ public class SetQues_controller implements Initializable {
     private int totalQuestions=1;
     private int currentQuestion = 1;
 
-private int index = 0;
+    private int index = 0;
+
     @FXML
-    private void save() {
+    private void Save_Question() {
         Questions obj = new Questions();
         if(Question_Type.getValue().equals("Written" )){
-            obj.Question = set_Question.getText();
+            obj.Question = set_Written_Question.getText();
             obj.Right_Answer = set_Right_Answer.getText();
         }else if(Question_Type.getValue().equals("MCQ")) {
             obj.Question = set_Question.getText();
             obj.Answer1 = set_Answer_A.getText();
             obj.Answer2 = set_Answer_B.getText();
-            obj.Answer3 = set_Answer_C.getText();
-            obj.Answer4 = set_Answer_D.getText();
+            if(Number_of_Answers.getValue().equals("2")){
+                obj.Answer3 = null;
+                obj.Answer4 = null;
+            }else if(Number_of_Answers.getValue().equals("3")){
+                obj.Answer3 = set_Answer_C.getText();
+                obj.Answer4 = null;
+            }else if(Number_of_Answers.getValue().equals("4")){
+                obj.Answer3 = set_Answer_C.getText();
+                obj.Answer4 = set_Answer_D.getText();
+            }
+            obj.Type = Question_Type.getValue();
             obj.Right_Answer = set_Right_Answer.getText();
         }
         Question_Arr.add(obj);
@@ -88,10 +98,6 @@ private int index = 0;
 
     @FXML
     public void Save_number_of_questions() {
-        if (totalQuestions <= 0) {
-            Alarm.setText("Number must be positive");
-            return;
-        }
         try {
             totalQuestions = Integer.parseInt(set_QuestionNumber.getText());
             currentQuestion = 1;
@@ -100,18 +106,24 @@ private int index = 0;
         } catch (NumberFormatException e) {
             set_QuestionNumber.setText("Invalid number");
         }
+        if (totalQuestions <= 0) {
+            Alarm.setText("Number must be positive");
+            return;
+        }
+
     }
 
     @FXML
     public void Next_Button() {
         set_Answer_C.setVisible(false);
         set_Answer_D.setVisible(false);
-        Answer_C.setText(" ");
-        Answer_D.setText(" ");
+        Answer_C.setText("");
+        Answer_D.setText("");
         Number_of_Answers.setValue("2");
         Question_Type.setValue("MCQ");
         back.setVisible(true);
-        Alarm.setText(" ");
+        Alarm.setText("");
+        set_Written_Question.setText("");
 
         if (currentQuestion < totalQuestions) {
             currentQuestion++;
@@ -141,7 +153,7 @@ private int index = 0;
             Answer_B.setText(" ");
             Answer_C.setText(" ");
             Answer_D.setText(" ");
-            Right_Answer.setText("Correction keys: ");
+            Right_Answer.setText("Correction keys:");
         }else if (Question_Type.getValue().equals("MCQ")) {
             Number_of_Answers.setVisible(true);
             NumberOfAnswers_lable.setVisible(true);
@@ -151,7 +163,7 @@ private int index = 0;
             set_Answer_B.setVisible(true);
             Answer_A.setText("Answer A:");
             Answer_B.setText("Answer B:");
-            Right_Answer.setText("Right Answer: ");
+            Right_Answer.setText("Right Answer:");
             Number_of_Answer_Box();
         }
     }
@@ -168,6 +180,41 @@ private int index = 0;
         }
         if (currentQuestion == 1) {
             back.setVisible(false);
+        }
+      Questions obj = Question_Arr.get(currentQuestion - 1);
+        if(obj.Type.equals("Written" )) {
+            set_Written_Question.setText(obj.Question);
+            set_Right_Answer.setText(obj.Right_Answer);
+            set_Written_Question.setVisible(true);
+            Number_of_Answers.setVisible(false);
+            NumberOfAnswers_lable.setVisible(false);
+            set_Question.setVisible(false);
+            set_Answer_A.setVisible(false);
+            set_Answer_B.setVisible(false);
+            set_Answer_C.setVisible(false);
+            set_Answer_D.setVisible(false);
+            Answer_A.setText(" ");
+            Answer_B.setText(" ");
+            Answer_C.setText(" ");
+            Answer_D.setText(" ");
+            Right_Answer.setText("Correction keys:");
+        } else if(obj.Type.equals("MCQ")){
+        set_Question.setText(obj.Question);
+        set_Answer_A.setText(obj.Answer1);
+        set_Answer_B.setText(obj.Answer2);
+        set_Answer_C.setText(obj.Answer3);
+        set_Answer_D.setText(obj.Answer4);
+        set_Right_Answer.setText(obj.Right_Answer);
+            Number_of_Answers.setVisible(true);
+            NumberOfAnswers_lable.setVisible(true);
+            set_Written_Question.setVisible(false);
+            set_Question.setVisible(true);
+            set_Answer_A.setVisible(true);
+            set_Answer_B.setVisible(true);
+            Answer_A.setText("Answer A:");
+            Answer_B.setText("Answer B:");
+            Right_Answer.setText("Right Answer:");
+            Number_of_Answer_Box();
         }
     }
     private void clearFields() {
@@ -213,7 +260,7 @@ private int index = 0;
             Answer_D.setText(" ");
         }
     }
-   public void Button_Finish(ActionEvent actionEvent) {
+   public void Finish_Button(ActionEvent actionEvent) {
        try {
            // Load MySQL JDBC driver
            Class.forName("com.mysql.cj.jdbc.Driver");
@@ -247,6 +294,23 @@ private int index = 0;
            Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, "Database connection failed", ex);
            Alarm.setText("Database error");
        }
+   }
+   public void Delete_Button(ActionEvent actionEvent) {
+       Questions obj = Question_Arr.get(currentQuestion);
+       set_Written_Question.setText(" ");
+       set_Right_Answer.setText(" ");
+       set_Answer_A.setText(" ");
+       set_Answer_B.setText(" ");
+       set_Answer_C.setText(" ");
+       set_Answer_D.setText(" ");
+       set_Question.setText(" ");
+       obj.Question = null;
+       obj.Answer1 = null;
+       obj.Answer2 = null;
+       obj.Answer3 = null;
+       obj.Answer4 = null;
+       obj.Type=null;
+       obj.Right_Answer = null;
    }
 }
 // Zeyad3050

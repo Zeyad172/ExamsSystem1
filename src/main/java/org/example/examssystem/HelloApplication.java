@@ -16,8 +16,9 @@ public class HelloApplication extends Application {
     public void start(Stage primaryStage) {
         try {
             // 1. Load FXML interface
-           //Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/GUI.fxml"));
-           Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/SetQuestions.fxml"));
+           Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/GUI.fxml"));
+           //Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/SetQuestions.fxml"));
+           // Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/Set_Exam.fxml"));
            // 2. Set up background image (absolute path)
             ImageView background = new ImageView();
             try {
@@ -44,13 +45,8 @@ public class HelloApplication extends Application {
             Scene scene = new Scene(layeredPane, 800, 600);
             background.fitWidthProperty().bind(scene.widthProperty());
             background.fitHeightProperty().bind(scene.heightProperty());
-            // 5. Set application icon
-
-
-
             
-            // 6. Load CSS
-
+            // 5. Set application icon
             try {
                 String iconPath = "D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\images.png";
                 Image appIcon = new Image(new File(iconPath).toURI().toString());

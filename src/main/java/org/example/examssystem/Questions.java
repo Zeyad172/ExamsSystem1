@@ -7,4 +7,5 @@ public class Questions {
     protected String Answer3;
     protected String Answer4;
     protected String Right_Answer;
+    protected String Type;
 }

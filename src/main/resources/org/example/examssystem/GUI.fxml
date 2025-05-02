@@ -48,7 +48,7 @@
 
    <!-- Buttons -->
    <HBox alignment="CENTER" spacing="30">
-      <Button onAction="#onCreateButtonsubmeter" style="-fx-background-color: #4CAF50; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 14pt; -fx-pref-width: 120;" text="Submit" />
+      <Button onAction="#Submit_Button" style="-fx-background-color: #4CAF50; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 14pt; -fx-pref-width: 120;" text="Submit" />
       <Button onAction="#initializeinfo" style="-fx-background-color: #3498db; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 14pt; -fx-pref-width: 140;" text="Information" />
    </HBox>
 </VBox>

@@ -6,60 +6,46 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
+import javafx.event.ActionEvent;
+
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+public class SetExam_controller implements Initializable{
+    @FXML private TextField Exam_Time;
+    @FXML private TextField Exam_Date;
+    @FXML private ComboBox<String> Exam_Type;
+    @FXML private ComboBox<String> Exam_Name;
+    @FXML private Label Alarm;
+    @FXML private Button Set_Exam_Button;
 
+    private String Exam_info;
 
-public class HelloController implements Initializable {
-    @FXML private Label Alert;
-    @FXML private ComboBox<String> CategoryComboBox;
-    @FXML
-    private Label welcomeText;
-    protected TextField nameTextField;
-    private PasswordField passwordTextField;
-
-    @FXML
-    public void initializeinfo() throws SQLException {
-        DatabaseConn DB = new DatabaseConn();
-        DB.createConnection();
-    }
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // Initialize the ComboBox here
-        CategoryComboBox.getItems().addAll("Professor", "Student", "Admin");
-        CategoryComboBox.setValue("Enter Your Category");
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Set_Exam_Button.setVisible(false);
+        Exam_Type.getItems().addAll( "Midterm","Final", "Quiz");
+        Exam_Type.setValue("Quiz");
+//        Exam_Name.getItems().addAll( "2","3", "4");
+//        Exam_Name.setValue("2");
     }
-    @FXML
-    protected void onCreateButtonsubmeter() throws SQLException {
-        DatabaseConn DB = new DatabaseConn();
-        DB.createConnection();
-        String name = nameTextField.getText();
-        String password = passwordTextField.getText();
-        DB.getTable(name,password);
-
-    }
-    @FXML
-    public void Submit_Button(javafx.event.ActionEvent actionEvent) {
-        if (CategoryComboBox.getValue().equals("Professor" )) {
+    public void Set_Questions(ActionEvent event) {
+        if(!Exam_Date.getText().isEmpty()  && !Exam_Time.getText().isEmpty()) {
+            Set_Exam_info();
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/Set_Exam.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/SetQuestions.fxml"));
 
-                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
                 ImageView background = new ImageView();
                 try {
@@ -95,7 +81,15 @@ public class HelloController implements Initializable {
                 e.printStackTrace();
 
             }
-        }
+        }else{Alarm.setText("You Must Fill All Fields");}
+    }
+    public void Set_Exam_info() {
+        this.Exam_info =Exam_Name.getValue()+";"+Exam_Type.getValue()+";"+Exam_Date.getText()+";"+ Exam_Time.getText();
+        Alarm.setText(Exam_info);
+        System.out.println(Exam_info);
+    }
+    public String getExam_info() {
+        return Exam_info;
     }
 
 

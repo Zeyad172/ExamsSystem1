@@ -30,10 +30,4 @@ public class Profressor {
     public String get_Password() {
         return Password;
     }
-
-
-    public void setExam(){
-
-
-    }
 }

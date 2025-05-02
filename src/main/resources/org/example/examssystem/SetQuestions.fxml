@@ -33,20 +33,20 @@
       <Label fx:id="Right_Answer" layoutX="119.0" layoutY="373.0" style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Right Answer: " />
       <TextField fx:id="set_Right_Answer" layoutX="239.0" layoutY="371.0" prefHeight="26.0" prefWidth="370.0" />
 
-      <Button layoutX="152.0" layoutY="439.0" mnemonicParsing="false" onAction="#save" prefHeight="40.0" prefWidth="120.0" style="-fx-font-weight: bold; -fx-background-color: #005BBB; -fx-text-fill: white; -fx-font-size: 14px;" text="Save Question" />
+      <Button layoutX="152.0" layoutY="439.0" mnemonicParsing="false" onAction="#Save_Question" prefHeight="40.0" prefWidth="120.0" style="-fx-font-weight: bold; -fx-background-color: #005BBB; -fx-text-fill: white; -fx-font-size: 14px;" text="Save Question" />
 
-      <Button layoutX="490.0" layoutY="439.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="126.0" style="-fx-font-weight: bold; -fx-background-color: #d90429; -fx-text-fill: white; -fx-font-size: 14px;" text="Delete Question" />
+      <Button layoutX="490.0" layoutY="439.0" mnemonicParsing="false" onAction="#Delete_Button" prefHeight="40.0" prefWidth="126.0" style="-fx-font-weight: bold; -fx-background-color: #d90429; -fx-text-fill: white; -fx-font-size: 14px;" text="Delete Question" />
 
       <Button fx:id="next_question" layoutX="19.0" layoutY="550.0" mnemonicParsing="false" onAction="#Next_Button" style="-fx-text-fill: white; -fx-background-color: green; -fx-font-weight: bold;" text="&lt;--Next" />
       <Button fx:id="back" layoutX="705.0" layoutY="550.0" mnemonicParsing="false" onAction="#Back_Button" style="-fx-background-color: blue; -fx-font-weight: bold; -fx-text-fill: white;" text="Back--&gt;" />
 
       <!-- Removed ExpansionPanel.ExpandedPanel because it's invalid -->
 
-      <Button fx:id="finished" layoutX="326.0" layoutY="479.0" mnemonicParsing="false" onAction="#Button_Finish" prefHeight="40.0" prefWidth="120.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: white; -fx-background-color: #0de1a5;" text="Finish Exam" textFill="#f6faf9" />
+      <Button fx:id="finished" layoutX="326.0" layoutY="479.0" mnemonicParsing="false" onAction="#Finish_Button" prefHeight="40.0" prefWidth="120.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: white; -fx-background-color: #0de1a5;" text="Finish Exam" textFill="#f6faf9" />
       <Button layoutX="526.0" layoutY="26.0" mnemonicParsing="false" onAction="#Save_number_of_questions" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-background-color: gray; -fx-text-fill: white;" text="Savae Number" />
       <ComboBox fx:id="Number_of_Answers" layoutX="717.0" layoutY="78.0" onAction="#Number_of_Answer_Box" prefHeight="26.0" prefWidth="62.0" promptText="2" />
       <Label fx:id="NumberOfAnswers_lable" layoutX="583.0" layoutY="81.0" prefHeight="20.0" prefWidth="134.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Numberof Answers:" />
-      <Label fx:id="Alarm" layoutX="97.0" layoutY="97.0" prefHeight="34.0" prefWidth="488.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" textFill="RED" />
+      <Label fx:id="Alarm" layoutX="97.0" layoutY="97.0" prefHeight="34.0" prefWidth="488.0" style="-fx-font-size: 16px;" textFill="#911a1a" />
       <TextArea fx:id="set_Written_Question" layoutX="86.0" layoutY="147.0" prefHeight="200.0" prefWidth="550.0" />
       <ComboBox fx:id="Question_Type" layoutX="646.0" layoutY="141.0" onAction="#Question_Type_Box" prefHeight="26.0" prefWidth="142.0" promptText="Question's Type" />
       <Label layoutX="660.0" layoutY="121.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Question Type" />
