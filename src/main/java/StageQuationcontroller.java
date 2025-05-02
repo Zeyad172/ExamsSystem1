@@ -1,10 +1,8 @@
-package org.example.examssystem;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;

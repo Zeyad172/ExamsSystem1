@@ -8,7 +8,7 @@ public class MainKamolia extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("src/main/resources/stage_Quation.fxml")); // غيّر المسار حسب اسم ملف FXML
+        Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/stage_Quation.fxml")); // غيّر المسار حسب اسم ملف FXML
         primaryStage.setTitle("Exam System");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
