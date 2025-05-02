@@ -16,26 +16,47 @@ private static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";
     private static final String USER = "root"; // e.g., "root"
     private static final String PASS = "Elzooz3050@#";
 
-    public static void createQuestionsTable(String tableName) {
+//    public static void createQuestionsTable(String tableName) {
+//        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+//             Statement stmt = conn.createStatement()) {
+//
+//            // SQL to create the table (exact structure from your screenshot)
+//            String sql = "CREATE TABLE IF NOT EXISTS questions (" +
+//                    "Question VARCHAR(150) NULL," +
+//                    "AnswerA VARCHAR(150) NULL," +      // Note: Typo in column name (AnswerA?)
+//                    "AswerB VARCHAR(150) NULL," +       // Typo (AnswerB?)
+//                    "AnswerC VARCHAR(150) NULL," +       // Typo (AnswerC?)
+//                    "AnswereD VARCHAR(150) NULL," +
+//                    "Rigth_Answer VARCHAR(150) NULL," +
+//                    "`Delete Access` VARCHAR(150) NULL" + // Backticks for spaces in column name
+//                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
+//
+//            stmt.executeUpdate(sql);
+//            System.out.println("Table 'questions' created successfully in 'mydb'!");
+//
+//        } catch (SQLException e) {
+//            System.err.println("MySQL error: " + e.getMessage());
+//        }
+//    }
+    public static void createTable(String tableName) throws SQLException {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
              Statement stmt = conn.createStatement()) {
-
-            // SQL to create the table (exact structure from your screenshot)
-            String sql = "CREATE TABLE IF NOT EXISTS questions (" +
-                    "Question VARCHAR(150) NULL," +
-                    "AnswerA VARCHAR(150) NULL," +      // Note: Typo in column name (AnswerA?)
-                    "AswerB VARCHAR(150) NULL," +       // Typo (AnswerB?)
-                    "AnswerC VARCHAR(150) NULL," +       // Typo (AnswerC?)
-                    "AnswereD VARCHAR(150) NULL," +
-                    "Rigth_Answer VARCHAR(150) NULL," +
-                    "`Delete Access` VARCHAR(150) NULL" + // Backticks for spaces in column name
-                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
+              SetExam_controller obj = new SetExam_controller();
+              tableName=obj.getExam_info();
+            String sql = String.format(
+                    "CREATE TABLE IF NOT EXISTS %s (" +
+                            "id INT AUTO_INCREMENT PRIMARY KEY," +
+                            "Question VARCHAR(150) NOT NULL," +
+                            "AnswerA VARCHAR(150) NOT NULL," +
+                            "AnswerB VARCHAR(150) NOT NULL," +
+                            "AnswerC VARCHAR(150) NOT NULL," +
+                            "AnswerD VARCHAR(150) NOT NULL," +
+                            "Right_Answer VARCHAR(150) NOT NULL" +
+                            ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",
+                    tableName
+            );
 
             stmt.executeUpdate(sql);
-            System.out.println("Table 'questions' created successfully in 'mydb'!");
-
-        } catch (SQLException e) {
-            System.err.println("MySQL error: " + e.getMessage());
         }
     }
 }
