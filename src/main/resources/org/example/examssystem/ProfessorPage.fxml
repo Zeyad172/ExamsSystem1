@@ -5,15 +5,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.examssystem.ProfessorPageController">
    <children>
       <Label layoutX="236.0" layoutY="46.0" text="Professor">
          <font>
             <Font size="31.0" />
          </font>
       </Label>
-      <Button layoutX="116.0" layoutY="137.0" mnemonicParsing="false" text="View Past Exam" />
+      <Button layoutX="116.0" layoutY="137.0" mnemonicParsing="false" onAction="#getPastResults" text="View Past Exam" />
       <Button layoutX="425.0" layoutY="137.0" mnemonicParsing="false" text="Button" />
    </children>
 </AnchorPane>
