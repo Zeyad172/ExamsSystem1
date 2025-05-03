@@ -1,11 +1,10 @@
+
 package org.example.examssystem;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 
 import java.net.URL;
 import java.sql.*;
@@ -17,11 +16,12 @@ public class StageQuationcontroller implements Initializable {
   private List<String> Answers = new ArrayList<>();
   private int currentQuestionIndex = 0;
   private ToggleGroup group = new ToggleGroup();
-
-  protected String currentQuestionType;
+  private int timeRemaining = 1 * 60;
+  private Timer timer;
+  private String dbName;
 
   @FXML
-  Label l1;
+  Label l1,timerlable;
   @FXML
   Label answerA,AnswerB,AnswerC,AnswerD;
   @FXML
@@ -33,9 +33,13 @@ public class StageQuationcontroller implements Initializable {
   @FXML
   Button b21, b22, b23, b24,b25,b26,b27,b28,b29,b30 ;
   @FXML
-  private Button Next;
+  Button save;
+  public void setReceivedButtonText(String text) {
 
-
+    this.dbName = text;
+    startTimer();
+    loadQuestionsFromDatabase();
+  }
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     buttons.addAll(Arrays.asList(b1, b2, b3, b4,b5,b6,b7,b8,b9,b10));
@@ -52,19 +56,13 @@ public class StageQuationcontroller implements Initializable {
       r4.setToggleGroup(group);
 
     }
-
-    try {
-      Class.forName("com.mysql.jdbc.Driver");
-    } catch (ClassNotFoundException e) {
-      throw new RuntimeException(e);
-    }
-
+  }
+  private void loadQuestionsFromDatabase() {
     try {
       Connection connection = DriverManager.getConnection(
               "jdbc:mysql://localhost:3306/project", "root", "mohamed2005");
       Statement statement = connection.createStatement();
-      ResultSet rs = statement.executeQuery("SELECT * FROM exam1");
-
+      ResultSet rs = statement.executeQuery("SELECT * FROM `" + dbName + "`");
       while (rs.next()) {
         Question question = null;
         if (Objects.equals(rs.getString("questionType"), "MCQ")) {
@@ -94,13 +92,16 @@ public class StageQuationcontroller implements Initializable {
       }
 
       if (!currentExam.isEmpty()) {
-       showQuestion(0);
+        showQuestion(0);
       }
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
+
+
+
 
   private void showQuestion(int index) {
     group.selectToggle(null);
@@ -135,24 +136,44 @@ public class StageQuationcontroller implements Initializable {
       System.out.println("No answer selected");
     }
   }
-
-
   @FXML
-  private void onNextClicked(ActionEvent event) {
+  private void saveAnswer(ActionEvent event) {
     saveAnswer();
-    currentQuestionIndex++;
-    if (currentQuestionIndex < currentExam.size()) {
-      showQuestion(currentQuestionIndex);
-      if (currentQuestionIndex == currentExam.size() - 1) {
-        Next.setText("Finish");
-      }
-    } else {
-      System.out.println("All answers: " + Answers);
+  }
 
-      Next.setDisable(true);
+
+
+  private void startTimer() {
+    timer = new Timer();
+    timer.scheduleAtFixedRate(new TimerTask() {
+      @Override
+      public void run() {
+        Platform.runLater(() -> {
+          int hours = timeRemaining / 3600;
+          int minutes = (timeRemaining % 3600) / 60;
+          int seconds = timeRemaining % 60;
+          timerlable.setText(String.format("Time: %02d:%02d:%02d", hours, minutes, seconds));
+
+          if (timeRemaining <= 0) {
+            timer.cancel();
+            timerlable.setText("Time's up!");
+            finishExam();
+          }
+
+          timeRemaining--;
+        });
+      }
+    }, 0, 1000);
+  }
+  private void finishExam() {
+    System.out.println("Time's up! Submitting exam...");
+
+    for (Button btn : buttons) {
+      btn.setDisable(true);
     }
   }
 
 
 
-}
+
+  }
