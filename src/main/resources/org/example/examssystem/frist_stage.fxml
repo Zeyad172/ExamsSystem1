@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.examssystem.Friststagecontroller">
+   <children>
+      <Button fx:id="Programming" layoutX="300.0" layoutY="77.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="134.0" text="programming exam" />
+      <Button fx:id="Electronics" layoutX="300.0" layoutY="112.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="134.0" text="Electronics Exame" />
+      <Button fx:id="Probability" layoutX="300.0" layoutY="152.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="134.0" text="Probability Exam" />
+      <Button fx:id="Logic" layoutX="300.0" layoutY="187.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="134.0" text="Logic Exam" />
+      <Button fx:id="Workshop" layoutX="300.0" layoutY="226.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="134.0" text="Workshop Exam" />
+      <Button fx:id="Tecnicalwritting" layoutX="300.0" layoutY="263.0" mnemonicParsing="false" onAction="#handleButtonClick" text="Tecnical writting Exam" />
+   </children>
+</AnchorPane>

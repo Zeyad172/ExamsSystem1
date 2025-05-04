@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.examssystem.LoginController">
+
+    <ImageView fitHeight="800" fitWidth="1000">
+        <image>
+            <Image url="@login_bg.jpg" />
+        </image>
+    </ImageView>
+
+    <VBox alignment="CENTER" spacing="20" style="-fx-background-color: rgba(255,255,255,0.8); -fx-padding: 40; -fx-background-radius: 10;">
+        <Label style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #142547;" text="Exam System Login" />
+
+        <GridPane hgap="10" vgap="10">
+            <Label style="-fx-font-weight: bold;" text="ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="idField" GridPane.columnIndex="3" />
+
+            <Label style="-fx-font-weight: bold;" text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <PasswordField fx:id="passwordField" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+
+        <Button fx:id="loginButton" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Login" />
+
+        <Label fx:id="errorLabel" style="-fx-text-fill: red;" />
+    </VBox>
+</StackPane>
