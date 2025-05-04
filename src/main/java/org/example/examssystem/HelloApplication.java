@@ -49,7 +49,7 @@ public class HelloApplication extends Application {
             System.out.println("NOUR WAS HERE");
             System.out.println("NOUR WAS HERE2");
             System.out.println("elzooz");
-            
+
             // 6. Load CSS
             try {
                 String css = getClass().getResource("/org/example/examssystem/csstest.css").toExternalForm();

@@ -3,9 +3,18 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
-<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.examssystem.Admin_control">
-
+<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="org.example.examssystem.Admin_control"
+>
+    <style>-fx-background-image: url('images/Admin.jpg');
+        -fx-background-size: cover;
+        -fx-background-repeat: no-repeat;
+        -fx-background-position: center;
+    </style>
 
     <GridPane fx:id="grid" style="-fx-background-color: rgba(255,255,255,0.7);">
         <padding>
@@ -14,93 +23,101 @@
         <hgap>12</hgap>
         <vgap>10</vgap>
 
+
+
         <!-- Student Fields -->
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Student ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <TextField fx:id="studentId" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Student ID:" GridPane.rowIndex="1" />
+        <TextField fx:id="studentId" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <TextField fx:id="studentName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Name:" GridPane.rowIndex="2" />
+        <TextField fx:id="studentName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <PasswordField fx:id="studentPass" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Password:" GridPane.rowIndex="3" />
+        <PasswordField fx:id="studentPass" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Probability:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-        <TextField fx:id="prob" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Probability:" GridPane.rowIndex="4" />
+        <TextField fx:id="prob" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Java:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-        <TextField fx:id="java" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Java:" GridPane.rowIndex="5" />
+        <TextField fx:id="java" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="English Reports:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-        <TextField fx:id="eng" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="English Reports:" GridPane.rowIndex="6" />
+        <TextField fx:id="eng" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Logic Design:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-        <TextField fx:id="logic" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Logic Design:" GridPane.rowIndex="7" />
+        <TextField fx:id="logic" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Electronics:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-        <TextField fx:id="elec" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Electronics:" GridPane.rowIndex="8" />
+        <TextField fx:id="elec" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Worshops:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-        <TextField fx:id="work" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Worshops:" GridPane.rowIndex="9" />
+        <TextField fx:id="work" GridPane.columnIndex="1" GridPane.rowIndex="9" />
 
-        <Button fx:id="addStudentBtn" onAction="#handleAddStudent" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Add Student" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+        <Button fx:id="addStudentBtn" onAction="#handleAddStudent" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Add Student" GridPane.columnIndex="1" GridPane.rowIndex="10" />
 
         <!-- Professor Fields -->
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Professor ID:" GridPane.columnIndex="0" GridPane.rowIndex="11" />
-        <TextField fx:id="profId" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Professor ID:" GridPane.rowIndex="12" />
+        <TextField fx:id="profId" GridPane.columnIndex="1" GridPane.rowIndex="12" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="12" />
-        <TextField fx:id="profName" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Name:" GridPane.rowIndex="13" />
+        <TextField fx:id="profName" GridPane.columnIndex="1" GridPane.rowIndex="13" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="13" />
-        <PasswordField fx:id="profPass" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Password:" GridPane.rowIndex="14" />
+        <PasswordField fx:id="profPass" GridPane.columnIndex="1" GridPane.rowIndex="14" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Subject1:" GridPane.columnIndex="0" GridPane.rowIndex="14" />
-        <TextField fx:id="sub1" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Subject1:" GridPane.rowIndex="15" />
+        <TextField fx:id="sub1" GridPane.columnIndex="1" GridPane.rowIndex="15" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Subject2:" GridPane.columnIndex="0" GridPane.rowIndex="15" />
-        <TextField fx:id="sub2" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Subject2:" GridPane.rowIndex="16" />
+        <TextField fx:id="sub2" GridPane.columnIndex="1" GridPane.rowIndex="16" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Subject3:" GridPane.columnIndex="0" GridPane.rowIndex="16" />
-        <TextField fx:id="sub3" GridPane.columnIndex="1" GridPane.rowIndex="16" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Subject3:" GridPane.rowIndex="17" />
+        <TextField fx:id="sub3" GridPane.columnIndex="1" GridPane.rowIndex="17" />
 
-        <Button fx:id="addProfBtn" onAction="#handleAddProfessor" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Add Professor" GridPane.columnIndex="1" GridPane.rowIndex="17" />
+        <Button fx:id="addProfBtn" onAction="#handleAddProfessor" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Add Professor" GridPane.columnIndex="1" GridPane.rowIndex="18" />
 
         <!-- Search Section -->
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Search Student by ID/Name:" GridPane.columnIndex="0" GridPane.rowIndex="19" />
-        <TextField fx:id="searchField" GridPane.columnIndex="1" GridPane.rowIndex="19" />
+        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Search Student by ID/Name:" GridPane.rowIndex="20" />
+        <TextField fx:id="searchField" GridPane.columnIndex="1" GridPane.rowIndex="20" />
 
-        <Button fx:id="searchBtn" onAction="#handleSearch" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Search Student" GridPane.columnIndex="1" GridPane.rowIndex="20" />
+        <Button fx:id="searchBtn" onAction="#handleSearch" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Search Student" GridPane.columnIndex="1" GridPane.rowIndex="21" />
 
-        <TextArea fx:id="resultArea" editable="false" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="21" GridPane.rowSpan="3" />
-      <columnConstraints>
-         <ColumnConstraints />
-         <ColumnConstraints />
-      </columnConstraints>
-      <rowConstraints>
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-      </rowConstraints>
+        <TextArea fx:id="resultArea" editable="false" GridPane.columnSpan="2" GridPane.rowIndex="22" GridPane.rowSpan="3" />
+        <Button mnemonicParsing="false" onAction="#handleBackButton" text="BACK" textAlignment="CENTER" GridPane.columnIndex="2">
+            <font>
+                <Font size="13.0" />
+            </font></Button>
+        <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+        </rowConstraints>
     </GridPane>
 </StackPane>

@@ -1,6 +1,11 @@
 package org.example.examssystem;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -9,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.geometry.Rectangle2D;
 import javafx.application.Platform;
 
+import java.io.IOException;
 import java.sql.*;
 
 public class Admin_control {
@@ -82,6 +88,14 @@ public class Admin_control {
                 sub3.getText()
         );
     }
+    @FXML
+    private void handleBackButton(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI.fxml")); // change to your previous FXML
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 
     @FXML
     private void handleSearch() {
@@ -105,8 +119,19 @@ public class Admin_control {
             pstmt.setString(9, work);
             pstmt.executeUpdate();
             System.out.println("Student added successfully.");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Notification");
+            alert.setHeaderText(null);
+            alert.setContentText("Student added successfully.");
+            alert.showAndWait();
         } catch (SQLException e) {
             System.out.println("This student already exists.");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("This student already exists.");
+            alert.showAndWait();
+
         }
     }
 
@@ -122,8 +147,20 @@ public class Admin_control {
             pstmt.setString(6, s3);
             pstmt.executeUpdate();
             System.out.println("Professor added successfully.");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Notification");
+            alert.setHeaderText(null);
+            alert.setContentText("Professor added successfully.");
+            alert.showAndWait();
         } catch (SQLException e) {
             System.out.println("This professor already exists.");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("This professor already exists.");
+            alert.showAndWait();
+
+
         }
     }
 
@@ -154,7 +191,12 @@ public class Admin_control {
                         + "Electronics: " + rs.getString("Electronics") + "\n"
                         + "Worshops: " + rs.getString("Worshops");
             } else {
-                return "Student not found.";
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Student not found."); // Updated message
+                alert.showAndWait();
+                return "Student not found."; // Moved after Alert
             }
         } catch (SQLException e) {
             e.printStackTrace();

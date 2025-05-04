@@ -21,6 +21,26 @@ public class Friststagecontroller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
    }
+    public void BackScenes(ActionEvent event, String fxmlFile) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    private void handleBackClick(ActionEvent event) {
+        BackScenes(event, "/org/example/examssystem/GUI.fxml"); // Use a relative path from resources
+    }
+
     public void switchSceneWithData(ActionEvent event, String fxmlFile, String buttonText) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
