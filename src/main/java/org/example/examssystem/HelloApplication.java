@@ -24,7 +24,7 @@ public class HelloApplication extends Application {
             // 2. Set up responsive background image
             background = new ImageView();
             try {
-                Image bgImage = new Image(new File("C:\\Users\\Omnya\\IdeaProjects\\ExamsSystem1\\src\\main\\java\\org\\example\\examssystem\\WhatsApp Image 2025-05-01 at 12.02.51_3fd4dbd0.jpg").toURI().toString());
+                Image bgImage = new Image(new File("C:\\Users\\Omnya\\IdeaProjects\\ExamsSystem1\\src\\main\\java\\org\\example\\examssystem\\WhatsApp Image 2025-05-04 at 01.44.07_65273210.jpg").toURI().toString());
                 background.setImage(bgImage);
                 background.setPreserveRatio(false);
                 background.setSmooth(true);

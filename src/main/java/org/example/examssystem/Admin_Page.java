@@ -29,7 +29,7 @@ public class Admin_Page extends Application {
             background.setImage(bgImage);
             background.setPreserveRatio(false);
             background.setSmooth(false);
-           // background.setOpacity(.9);
+            //background.setOpacity(10);
 
             System.out.println("Background loaded successfully. Dimensions: " +
                     bgImage.getWidth() + "x" + bgImage.getHeight());
