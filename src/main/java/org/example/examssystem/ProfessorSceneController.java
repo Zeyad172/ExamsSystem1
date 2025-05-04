@@ -1,5 +1,7 @@
 package org.example.examssystem;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +15,13 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ProfessorSceneController {
@@ -42,18 +50,25 @@ public class ProfessorSceneController {
         stage.setScene(scene);
         stage.show();
     }
-    public void auth(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
+    public void auth(ActionEvent event) throws ClassNotFoundException, SQLException, IOException, InterruptedException {
         String id = this.idTextField.getText();
         String password = this.mfxPasswordField.getText();
         boolean authSuccessfull = false;
         System.out.println(id);
         System.out.println(password);
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb","root","Elnaggar2@");
-        Statement statement = connection.createStatement();
-        ResultSet professorsData = statement.executeQuery("SELECT * FROM professors");
-        while(professorsData.next()){
-            if(Objects.equals(id, professorsData.getString("professorID"))&& Objects.equals(password, professorsData.getString("password"))){
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/users/professorAuth"))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayList<ProfessorData>retrievedProfessorsData = mapper.readValue(response.body(), new TypeReference<ArrayList<ProfessorData>>(){});
+        System.out.println(retrievedProfessorsData.get(0).professorPassword);
+        for(ProfessorData p : retrievedProfessorsData){
+            if(Objects.equals(id,p.professorID)&&Objects.equals(password,p.professorPassword)){
                 showProfessorPage(event);
                 authSuccessfull=true;
             }
@@ -61,3 +76,9 @@ public class ProfessorSceneController {
         if(!authSuccessfull)showAlert();
     }
 }
+/*while(professorsData.next()){
+            if(Objects.equals(id, professorsData.getString("professorID"))&& Objects.equals(password, professorsData.getString("password"))){
+                showProfessorPage(event);
+                authSuccessfull=true;
+            }
+        }*/

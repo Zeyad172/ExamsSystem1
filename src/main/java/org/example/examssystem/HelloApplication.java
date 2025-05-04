@@ -8,9 +8,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import java.io.File;
 import java.util.Objects;
-
+@SpringBootApplication
 public class HelloApplication extends Application {
 
     private ImageView background;
@@ -86,6 +89,7 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
+        SpringApplication.run(HelloApplication.class, args);
         launch(args);
     }
 }

@@ -1,5 +1,7 @@
 package org.example.examssystem;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,8 +12,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class PastResultController implements Initializable {
@@ -31,18 +39,42 @@ public class PastResultController implements Initializable {
         nameCol.setCellValueFactory(new PropertyValueFactory<>("studentName"));
         IDCol.setCellValueFactory(new PropertyValueFactory<>("studentID"));
         scoreCol.setCellValueFactory(new PropertyValueFactory<>("studentScore"));
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/users/setButtons")).GET().build();
+        HttpResponse<String> response;
+        ObjectMapper mapper;
+        ArrayList<String> ButtonNames;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+             response = client.send(request, HttpResponse.BodyHandlers.ofString());
+             mapper = new ObjectMapper();
+             ButtonNames =mapper.readValue(response.body(),new TypeReference<ArrayList<String>>(){});
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
         }
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb","root","Elnaggar2@");
-            Statement statement = connection.createStatement();
-            statement.execute("USE subjectpastresults");
-            ResultSet rs = statement.executeQuery("SHOW TABLES");
+        for(String bName : ButtonNames) {
+            Button b = new Button(bName);
+            b.setOnAction(e->{
+                HttpClient client2 = HttpClient.newHttpClient();
+                HttpRequest request2 = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/users/setButtonAction")).GET().build();
+                HttpResponse<String> response2;
+                ObjectMapper mapper2;
+                ArrayList<Result> results;
+                try {
+                    response2 = client2.send(request2,HttpResponse.BodyHandlers.ofString());
+                    mapper2 = new ObjectMapper();
+                    results =
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+        }
 
-            while(rs.next()){
+
+        while(rs.next()){
                 Button b = new Button(rs.getString(1));
                 b.setOnAction(e->{
                     try {
