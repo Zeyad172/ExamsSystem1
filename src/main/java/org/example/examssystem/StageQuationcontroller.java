@@ -13,15 +13,15 @@ import java.util.*;
 public class StageQuationcontroller implements Initializable {
   protected ArrayList<Question> currentExam = new ArrayList<>(30);
   protected ArrayList<Button> buttons = new ArrayList<>();
-  private List<String> Answers = new ArrayList<>();
-  private int currentQuestionIndex = 0;
+  private ArrayList<String> Answers = new ArrayList<>(Collections.nCopies(30, null));
+
   private ToggleGroup group = new ToggleGroup();
   private int timeRemaining = 1 * 60;
   private Timer timer;
   private String dbName;
 
   @FXML
-  Label l1,timerlable;
+  Label l1,timerlable,finish;
   @FXML
   Label answerA,AnswerB,AnswerC,AnswerD;
   @FXML
@@ -33,7 +33,7 @@ public class StageQuationcontroller implements Initializable {
   @FXML
   Button b21, b22, b23, b24,b25,b26,b27,b28,b29,b30 ;
   @FXML
-  Button save;
+  Button save =new Button(),f,back;
   public void setReceivedButtonText(String text) {
 
     this.dbName = text;
@@ -88,8 +88,13 @@ public class StageQuationcontroller implements Initializable {
           buttons.get(i).setVisible(true);
           int index = i;
           buttons.get(i).setOnAction(e -> showQuestion(index));
+
+
+          }
+
+
         }
-      }
+
 
       if (!currentExam.isEmpty()) {
         showQuestion(0);
@@ -107,6 +112,7 @@ public class StageQuationcontroller implements Initializable {
     group.selectToggle(null);
     Question q = currentExam.get(index);
     l1.setText(q.question);
+
     if (q instanceof MCQ) {
       r1.setText(((MCQ) q).answerA);
       r2.setText(((MCQ) q).answerB);
@@ -116,12 +122,26 @@ public class StageQuationcontroller implements Initializable {
       r3.setVisible(true); r4.setVisible(true);
       answerA.setVisible(true); AnswerB.setVisible(true);
       AnswerC.setVisible(true); AnswerD.setVisible(true);
+      back.setVisible(false);
+
     } else if (q instanceof TF) {
       r1.setText(((TF) q).answerA);
       r2.setText(((TF) q).answerB);
       r1.setVisible(true); r2.setVisible(true);
       r3.setVisible(false); r4.setVisible(false);
       AnswerC.setVisible(false); AnswerD.setVisible(false);
+      back.setVisible(false);
+
+    }
+    if(Answers.get(index)!=null){
+        if(Objects.equals(Answers.get(index), r1.getText()))
+          r1.setSelected(true);
+       else if(Objects.equals(Answers.get(index), r2.getText()))
+          r2.setSelected(true);
+        else if(Objects.equals(Answers.get(index), r3.getText()))
+          r3.setSelected(true);
+        else
+        r4.setSelected(true);
     }
   }
 
@@ -167,12 +187,29 @@ public class StageQuationcontroller implements Initializable {
   }
   private void finishExam() {
     System.out.println("Time's up! Submitting exam...");
-
+    finish.setVisible(true);
+finish.setText("The Exam Finished");
+    back.setVisible(true);
+    r1.setVisible(false);
+    r2.setVisible(false);
+    r3.setVisible(false);
+    r4.setVisible(false);
+  this.save.setVisible(false);
+    answerA.setVisible(false);
+    AnswerD.setVisible(false);
+    AnswerC.setVisible(false);
+    AnswerB.setVisible(false);
+    f.setVisible(false);
+    l1.setVisible(false);
+    timerlable.setVisible(false);
     for (Button btn : buttons) {
-      btn.setDisable(true);
+      btn.setVisible(false);
     }
   }
-
+  @FXML
+  private void finish (ActionEvent event) {
+    finishExam();
+  }
 
 
 
