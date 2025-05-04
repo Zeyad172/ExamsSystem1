@@ -19,10 +19,13 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.*;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SetExam_controller implements Initializable{
-    @FXML private TextField Exam_Time;
+    @FXML private TextField Exam_Time,ID;
     @FXML private TextField Exam_Date;
     @FXML private ComboBox<String> Exam_Type;
     @FXML private ComboBox<String> Exam_Name;
@@ -30,6 +33,11 @@ public class SetExam_controller implements Initializable{
     @FXML private Button Set_Exam_Button;
 
     private String Exam_info;
+    public static String id;
+
+    static protected String url = "jdbc:mysql://localhost:3306/mydb";
+    static protected String user = "root";
+    static protected String password = "Elzooz3050@#";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -40,6 +48,38 @@ public class SetExam_controller implements Initializable{
 //        Exam_Name.setValue("2");
     }
     public void Set_Questions(ActionEvent event) {
+        try {
+            // Load MySQL JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection(url, user, "Elzooz3050@");
+
+            System.out.println("Database connection established successfully!");
+            Statement stmt = con.createStatement();
+            String sql = "INSERT INTO exams_info VALUES (?, ?, ?, ?, ?)";
+            // Prepare statement
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            // Loop through all questions in the array
+
+                // Set parameter values
+                pstmt.setString(1, Exam_Name.getValue());
+                pstmt.setString(2, ID.getText());
+                pstmt.setString(3, Exam_Time.getText());
+                pstmt.setString(4, Exam_Type.getValue());
+                pstmt.setString(5, Exam_Date.getText());
+
+                pstmt.executeUpdate();
+                System.out.println("Exam Information added successfully! : "+Exam_info );
+
+            System.out.println("All Information saved successfully to database");
+            Alarm.setText("Exam Information added successfully! : "+Exam_info);
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, "MySQL JDBC Driver not found", ex);
+            Alarm.setText("Failed to load database driver:");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, "Database connection failed", ex);
+            Alarm.setText("Database error");
+        }
         if(!Exam_Date.getText().isEmpty()  && !Exam_Time.getText().isEmpty()) {
             Set_Exam_info();
             try {
@@ -84,7 +124,9 @@ public class SetExam_controller implements Initializable{
         }else{Alarm.setText("You Must Fill All Fields");}
     }
     public void Set_Exam_info() {
-        this.Exam_info =Exam_Name.getValue()+";"+Exam_Type.getValue()+";"+Exam_Date.getText()+";"+ Exam_Time.getText();
+        id = ID.getText();  // static value set here
+        this.Exam_info = Exam_Name.getValue() + ";" + Exam_Type.getValue() + ";" +
+                Exam_Date.getText() + ";" + Exam_Time.getText() + ";" + id;
         Alarm.setText(Exam_info);
         System.out.println(Exam_info);
     }
