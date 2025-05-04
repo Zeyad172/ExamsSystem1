@@ -1,10 +1,14 @@
 .label{
 -fx-font-size:20;
-    -fx-alignment: center;
+    -fx-alignment: left;
 }
-.root{
-    -fx-background-color:"black";
+.root {
+    -fx-background-image: url("unnamed.jpg");
+    -fx-background-size: cover;
+    -fx-background-position: center;
 }
+
+/* Add any additional CSS rules here */
 #titleLabel{
 
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.examssystem.SetExam_controller">
+   <children>
+      <ComboBox fx:id="Exam_Type" layoutX="187.0" layoutY="376.0" prefHeight="26.0" prefWidth="165.0" />
+      <ComboBox fx:id="Exam_Name" layoutX="476.0" layoutY="376.0" prefHeight="26.0" prefWidth="166.0" />
+      <TextField fx:id="Exam_Date" layoutX="218.0" layoutY="71.0" promptText="XX/XX/XX" />
+      <TextField fx:id="Exam_Time" layoutX="506.0" layoutY="71.0" promptText="Number of houres" />
+      <Label layoutX="135.0" layoutY="73.0" style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Exam Date:" />
+      <Label layoutX="422.0" layoutY="73.0" style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Exam Time:" />
+      <Label layoutX="98.0" layoutY="377.0" style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Exam Type:" />
+      <Label layoutX="377.0" layoutY="377.0" style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Exam Name:" />
+      <Button fx:id="Set_Exam_Button" layoutX="345.0" layoutY="538.0" mnemonicParsing="false" onAction="#Set_Questions" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-background-color: green;" text="Set Questions" textFill="WHITE" />
+      <Label fx:id="Alarm" layoutX="121.0" layoutY="14.0" prefHeight="38.0" prefWidth="582.0" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+      <TextField fx:id="ID" layoutX="302.0" layoutY="225.0" promptText="5 uniqe numbers" />
+      <Label layoutX="239.0" layoutY="227.0" style="-fx-font-weight: bold; -fx-font-size: 15px;" text="Exam ID:" />
+   </children>
+</AnchorPane>
