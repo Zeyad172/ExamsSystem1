@@ -16,10 +16,10 @@ public class StageQuationcontroller implements Initializable {
   private ArrayList<String> Answers = new ArrayList<>(Collections.nCopies(30, null));
 
   private ToggleGroup group = new ToggleGroup();
-  private int timeRemaining = 1 * 60;
+  private int timeRemaining = 1*60 * 60;
   private Timer timer;
   private String dbName;
-
+  private int currentQuestionIndex;
   @FXML
   Label l1,timerlable,finish;
   @FXML
@@ -33,7 +33,7 @@ public class StageQuationcontroller implements Initializable {
   @FXML
   Button b21, b22, b23, b24,b25,b26,b27,b28,b29,b30 ;
   @FXML
-  Button save =new Button(),f,back;
+  Button s,f,back;
   public void setReceivedButtonText(String text) {
 
     this.dbName = text;
@@ -82,87 +82,74 @@ public class StageQuationcontroller implements Initializable {
         }
         currentExam.add(question);
       }
-
+      Collections.shuffle(currentExam);
       for (int i = 0; i < currentExam.size(); i++) {
         if (buttons.get(i) != null) {
           buttons.get(i).setVisible(true);
           int index = i;
           buttons.get(i).setOnAction(e -> showQuestion(index));
-
-
-          }
-
-
-        }
-
-
+        }}
       if (!currentExam.isEmpty()) {
         showQuestion(0);
       }
-
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
-
-
-
-
-  private void showQuestion(int index) {
-    group.selectToggle(null);
-    Question q = currentExam.get(index);
-    l1.setText(q.question);
-
-    if (q instanceof MCQ) {
-      r1.setText(((MCQ) q).answerA);
-      r2.setText(((MCQ) q).answerB);
-      r3.setText(((MCQ) q).answerC);
-      r4.setText(((MCQ) q).answerD);
-      r1.setVisible(true); r2.setVisible(true);
-      r3.setVisible(true); r4.setVisible(true);
-      answerA.setVisible(true); AnswerB.setVisible(true);
-      AnswerC.setVisible(true); AnswerD.setVisible(true);
-      back.setVisible(false);
-
-    } else if (q instanceof TF) {
-      r1.setText(((TF) q).answerA);
-      r2.setText(((TF) q).answerB);
-      r1.setVisible(true); r2.setVisible(true);
-      r3.setVisible(false); r4.setVisible(false);
-      AnswerC.setVisible(false); AnswerD.setVisible(false);
-      back.setVisible(false);
-
-    }
-    if(Answers.get(index)!=null){
-        if(Objects.equals(Answers.get(index), r1.getText()))
-          r1.setSelected(true);
-       else if(Objects.equals(Answers.get(index), r2.getText()))
-          r2.setSelected(true);
-        else if(Objects.equals(Answers.get(index), r3.getText()))
-          r3.setSelected(true);
-        else
-        r4.setSelected(true);
-    }
+private void showQuestion(int index) {
+  currentQuestionIndex = index;
+  group.selectToggle(null); // إلغاء التحديد السابق
+  Question q = currentExam.get(index);
+  l1.setText(q.question);
+  if (q instanceof MCQ) {
+    r1.setText(((MCQ) q).answerA);
+    r2.setText(((MCQ) q).answerB);
+    r3.setText(((MCQ) q).answerC);
+    r4.setText(((MCQ) q).answerD);
+    r1.setVisible(true); r2.setVisible(true);
+    r3.setVisible(true); r4.setVisible(true);
+    answerA.setVisible(true); AnswerB.setVisible(true);
+    AnswerC.setVisible(true); AnswerD.setVisible(true);
+    back.setVisible(false);
+  } else if (q instanceof TF) {
+    r1.setText(((TF) q).answerA);
+    r2.setText(((TF) q).answerB);
+    r1.setVisible(true); r2.setVisible(true);
+    r3.setVisible(false); r4.setVisible(false);
+    answerA.setVisible(true); AnswerB.setVisible(true);
+    AnswerC.setVisible(false); AnswerD.setVisible(false);
+    back.setVisible(false);
   }
-
-  public void saveAnswer() {
-    RadioButton selected = (RadioButton) group.getSelectedToggle();
-    if (selected != null) {
-      String answerText = selected.getText();
-      Answers.add(answerText);
-      System.out.println("Saved answer: " + answerText);
-    } else {
+  // استرجاع الإجابة القديمة إن وُجدت
+  if (index < Answers.size() && Answers.get(index) != null) {
+    String savedAnswer = Answers.get(index);
+    if (Objects.equals(savedAnswer, r1.getText())) r1.setSelected(true);
+    else if (Objects.equals(savedAnswer, r2.getText())) r2.setSelected(true);
+    else if (Objects.equals(savedAnswer, r3.getText())) r3.setSelected(true);
+    else if (Objects.equals(savedAnswer, r4.getText())) r4.setSelected(true);
+  }
+}
+public void saveAnswer() {
+  RadioButton selected = (RadioButton) group.getSelectedToggle();
+  String answerText = selected != null ? selected.getText() : "";
+  // إذا كانت الإجابة محفوظة من قبل، نعدلها، وإذا لم تكن، نضيفها
+  if (currentQuestionIndex < Answers.size()) {
+    Answers.set(currentQuestionIndex, answerText);
+  } else {
+    // نملأ الفجوات إذا لازم
+    while (Answers.size() < currentQuestionIndex) {
       Answers.add("");
-      System.out.println("No answer selected");
     }
+    Answers.add(answerText);
   }
+
+  System.out.println("Saved answer for Q" + (currentQuestionIndex + 1) + ": " + answerText);
+}
+
   @FXML
   private void saveAnswer(ActionEvent event) {
     saveAnswer();
   }
-
-
-
   private void startTimer() {
     timer = new Timer();
     timer.scheduleAtFixedRate(new TimerTask() {
@@ -179,7 +166,6 @@ public class StageQuationcontroller implements Initializable {
             timerlable.setText("Time's up!");
             finishExam();
           }
-
           timeRemaining--;
         });
       }
@@ -194,7 +180,7 @@ finish.setText("The Exam Finished");
     r2.setVisible(false);
     r3.setVisible(false);
     r4.setVisible(false);
-  this.save.setVisible(false);
+    s.setVisible(false);
     answerA.setVisible(false);
     AnswerD.setVisible(false);
     AnswerC.setVisible(false);
@@ -207,10 +193,10 @@ finish.setText("The Exam Finished");
     }
   }
   @FXML
-  private void finish (ActionEvent event) {
+  private void finish_button (ActionEvent event) {
     finishExam();
-  }
+  }}
+  //private void correctexam () {
 
 
-
-  }
+  //}
