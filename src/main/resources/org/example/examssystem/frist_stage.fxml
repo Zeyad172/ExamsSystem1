@@ -11,6 +11,6 @@
       <Button fx:id="Logic" layoutX="300.0" layoutY="187.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="134.0" text="Logic Exam" />
       <Button fx:id="Workshop" layoutX="300.0" layoutY="226.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="134.0" text="Workshop Exam" />
       <Button fx:id="Tecnicalwritting" layoutX="300.0" layoutY="263.0" mnemonicParsing="false" onAction="#handleButtonClick" text="Tecnical writting Exam" />
-      <Button layoutX="534.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleBackClick" text="BACK" />
+      <Button layoutX="534.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleBackButton" text="BACK" />
    </children>
 </AnchorPane>
