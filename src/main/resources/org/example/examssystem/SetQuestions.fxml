@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.examssystem.SetQues_controller">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.examssystem.SetQues_controller">
    <children>
       <Label layoutX="200.0" layoutY="30.0" prefHeight="18.0" prefWidth="150.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Number of Questions:" />
       <TextField fx:id="set_QuestionNumber" layoutX="370.0" layoutY="26.0" onAction="#Save_number_of_questions" prefHeight="26.0" prefWidth="120.0" />
@@ -42,7 +46,7 @@
       <Button layoutX="526.0" layoutY="26.0" mnemonicParsing="false" onAction="#Save_number_of_questions" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-background-color: gray; -fx-text-fill: white;" text="Savae Number" />
       <ComboBox fx:id="Number_of_Answers" layoutX="717.0" layoutY="78.0" onAction="#Number_of_Answer_Box" prefHeight="26.0" prefWidth="62.0" promptText="2" />
       <Label fx:id="NumberOfAnswers_lable" layoutX="583.0" layoutY="81.0" prefHeight="20.0" prefWidth="134.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Numberof Answers:" />
-      <Label fx:id="Alarm" layoutX="97.0" layoutY="97.0" prefHeight="34.0" prefWidth="488.0" style="-fx-font-size: 16px;" textFill="#3f1a8f" />
+      <Label fx:id="Alarm" layoutX="28.0" layoutY="95.0" prefHeight="34.0" prefWidth="544.0" style="-fx-font-size: 16px;" textFill="#3f1a8f" />
       <TextArea fx:id="set_Written_Question" layoutX="86.0" layoutY="147.0" prefHeight="200.0" prefWidth="550.0" />
       <ComboBox fx:id="Question_Type" layoutX="646.0" layoutY="141.0" onAction="#Question_Type_Box" prefHeight="26.0" prefWidth="142.0" promptText="Question's Type" />
       <Label layoutX="660.0" layoutY="121.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Question Type" />

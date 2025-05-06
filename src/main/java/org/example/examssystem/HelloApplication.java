@@ -18,7 +18,7 @@ public class HelloApplication extends Application {
             // 1. Load FXML interface
            Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/GUI.fxml"));
            //Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/SetQuestions.fxml"));
-           // Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/Set_Exam.fxml"));
+            //Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/Set_Exam.fxml"));
            // 2. Set up background image (absolute path)
             ImageView background = new ImageView();
             try {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600" prefWidth="800" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.examssystem.HelloProfessor_controller">
+
+    <!-- Right Panel -->
+    <Pane layoutX="600" layoutY="0" prefHeight="600" prefWidth="200" style="-fx-background-color: #1e1e1e;">
+        <VBox alignment="CENTER" layoutX="25" layoutY="100" spacing="20">
+            <Button onAction="#Set_Exam" prefWidth="150" style="-fx-background-color: #2e8b57; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" text="Set Exam" />
+            <Button onAction="#Edit_Exam" prefWidth="150" style="-fx-background-color: #4169e1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" text="Exam Result" />
+            <Button onAction="#Exam_result" prefWidth="150" style="-fx-background-color: #8b0000; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" text="Edit Exam" />
+        </VBox>
+    </Pane>
+
+    <!-- Doctor Info Area -->
+    <VBox layoutX="30" layoutY="50" spacing="15">
+        <Label fx:id="drNameLabel" style="-fx-font-size: 18px; -fx-text-fill: #333;" text="Dr. Name: " />
+        <Label fx:id="usernameLabel" style="-fx-font-size: 18px; -fx-text-fill: #333;" text="Username: " />
+        <Label fx:id="phoneLabel" style="-fx-font-size: 18px; -fx-text-fill: #333;" text="Phone Number: " />
+        <Label fx:id="emailLabel" style="-fx-font-size: 18px; -fx-text-fill: #333;" text="Email: " />
+        <Label fx:id="subjectsLabel" style="-fx-font-size: 18px; -fx-text-fill: #333;" text="Subjects: " />
+    </VBox>
+
+    <!-- Scene Title -->
+    <Label layoutX="30" layoutY="10" style="-fx-font-size: 24px; -fx-text-fill: #2f4f4f; -fx-font-weight: bold;" text="Hello Professor" />
+
+</AnchorPane>

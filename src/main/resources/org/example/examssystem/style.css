@@ -1,0 +1,44 @@
+.root {
+    -fx-background-image: url("unnamed.jpg");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-padding: 40;
+}
+
+.title-text {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-fill: white;
+}
+
+.alarm-label {
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-text-fill: #ff4d4d;
+}
+
+.grid-pane {
+    -fx-background-color: rgba(255,255,255,0.12);
+    -fx-background-radius: 15;
+    -fx-padding: 30;
+}
+
+.grid-label {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.grid-input {
+    -fx-font-size: 14px;
+}
+
+.set-exam-button {
+    -fx-background-color: #27ae60;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10 25;
+    -fx-background-radius: 10;
+}
