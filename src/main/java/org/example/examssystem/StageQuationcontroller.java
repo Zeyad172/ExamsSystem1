@@ -3,23 +3,33 @@ package org.example.examssystem;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.*;
-
 public class StageQuationcontroller implements Initializable {
   protected ArrayList<Question> currentExam = new ArrayList<>(30);
+  protected ArrayList<Question> originalExamOrder = new ArrayList<>(30);
   protected ArrayList<Button> buttons = new ArrayList<>();
-  private ArrayList<String> Answers = new ArrayList<>(Collections.nCopies(30, null));
+  private ArrayList<String> Answers = new ArrayList<>(Collections.nCopies(30, ""));
 
   private ToggleGroup group = new ToggleGroup();
   private int timeRemaining = 1*60 * 60;
   private Timer timer;
   private String dbName;
-  private int currentQuestionIndex;
+  private int currentQuestionIndex,score;
   @FXML
   Label l1,timerlable,finish;
   @FXML
@@ -54,7 +64,7 @@ public class StageQuationcontroller implements Initializable {
       r2.setToggleGroup(group);
       r3.setToggleGroup(group);
       r4.setToggleGroup(group);
-
+      finish.setVisible(false);
     }
   }
   private void loadQuestionsFromDatabase() {
@@ -69,6 +79,7 @@ public class StageQuationcontroller implements Initializable {
           question = new MCQ();
           question.question = rs.getString("question");
           question.questionType = rs.getString("questionType");
+          question.Right_Answer = rs.getString("RightAnswer");
           ((MCQ) question).answerA = rs.getString("AnswerA");
           ((MCQ) question).answerB = rs.getString("AnswerB");
           ((MCQ) question).answerC = rs.getString("AnswerC");
@@ -77,11 +88,13 @@ public class StageQuationcontroller implements Initializable {
           question = new TF();
           question.question = rs.getString("question");
           question.questionType = rs.getString("questionType");
+          question.Right_Answer = rs.getString("RightAnswer");
           ((TF) question).answerA = rs.getString("AnswerA");
           ((TF) question).answerB = rs.getString("AnswerB");
         }
         currentExam.add(question);
       }
+      originalExamOrder = new ArrayList<>(currentExam);
       Collections.shuffle(currentExam);
       for (int i = 0; i < currentExam.size(); i++) {
         if (buttons.get(i) != null) {
@@ -147,7 +160,7 @@ public void saveAnswer() {
 }
 
   @FXML
-  private void saveAnswer(ActionEvent event) {
+  private void save_Answer(ActionEvent event) {
     saveAnswer();
   }
   private void startTimer() {
@@ -174,7 +187,6 @@ public void saveAnswer() {
   private void finishExam() {
     System.out.println("Time's up! Submitting exam...");
     finish.setVisible(true);
-finish.setText("The Exam Finished");
     back.setVisible(true);
     r1.setVisible(false);
     r2.setVisible(false);
@@ -191,12 +203,74 @@ finish.setText("The Exam Finished");
     for (Button btn : buttons) {
       btn.setVisible(false);
     }
+    gradeExam();
   }
   @FXML
   private void finish_button (ActionEvent event) {
     finishExam();
+  }
+  @FXML
+  private void Back_button (ActionEvent event) throws IOException {
+    try {
+      Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/frist_stage.fxml"));
+
+      Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+      ImageView background = new ImageView();
+      try {
+        String imagePath = "D:\\projects programming\\ExamsSystem1\\src\\main\\java\\org\\example\\examssystem\\صورة واتساب بتاريخ 1446-11-06 في 01.42.33_d98fc2c8.jpg";
+        System.out.println("Loading background from: " + imagePath);
+
+        Image bgImage = new Image(new File(imagePath).toURI().toString());
+        background.setImage(bgImage);
+        background.setPreserveRatio(false);
+        background.setSmooth(true);
+        background.setOpacity(0.9);
+
+        System.out.println("Background loaded successfully. Dimensions: " +
+                bgImage.getWidth() + "x" + bgImage.getHeight());
+      } catch (Exception e) {
+        System.err.println("Failed to load background:");
+        e.printStackTrace();
+      }
+      StackPane layeredPane = new StackPane();
+      layeredPane.getChildren().addAll(background, root);
+      Scene scene = new Scene(layeredPane, 800, 600);
+      background.fitWidthProperty().bind(scene.widthProperty());
+      background.fitHeightProperty().bind(scene.heightProperty());
+
+      stage.setTitle("Helwan's Exams System");
+      stage.setScene(scene);
+      stage.setMinWidth(600);
+      stage.setMinHeight(400);
+      stage.show();
+    } catch (IOException e) {
+      // Handle any errors loading the FXML
+      System.err.println("Error loading Scene2.fxml: " + e.getMessage());
+      e.printStackTrace();
+
+    }
+
+    }
+  private void gradeExam() {
+    int correct = 0;
+    for (int i = 0; i < currentExam.size(); i++) {
+      Question shown = currentExam.get(i);
+      String studentAnswer = (i < Answers.size()) ? Answers.get(i) : "";
+
+      for (Question original : originalExamOrder) {
+        if (shown.question.equals(original.question)) {
+          if (studentAnswer != null && studentAnswer.equals(original.Right_Answer)) {
+            correct++;
+          }
+          break;
+        }
+      }
+    }
+    System.out.println(correct);
   }}
-  //private void correctexam () {
 
 
-  //}
+
+
+
