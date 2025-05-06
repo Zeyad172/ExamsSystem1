@@ -123,6 +123,13 @@ public class SetExam_controller implements Initializable{
             }
         }else{Alarm.setText("You Must Fill All Fields");}
     }
+    public void handleBackButton(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI.fxml")); // change to your previous FXML
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
     public void Set_Exam_info() {
         id = ID.getText();  // static value set here
         this.Exam_info = Exam_Name.getValue() + ";" + Exam_Type.getValue() + ";" +
