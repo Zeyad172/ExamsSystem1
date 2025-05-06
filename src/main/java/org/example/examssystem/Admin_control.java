@@ -1,5 +1,6 @@
 package org.example.examssystem;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -9,12 +10,17 @@ import javafx.stage.Stage;
 import javafx.geometry.Rectangle2D;
 import javafx.application.Platform;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.*;
 
 public class Admin_control {
-    static final String DB_URL = "jdbc:mysql://localhost:3306/UniversityDB";
-    static final String USER = "MOMO";
-    static final String PASS = "SecurePass123!";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/nourdb";
+    static final String USER = "root";
+    static final String PASS = "Elnaggar2@";
 
     @FXML private TextField studentId;
     @FXML private TextField studentName;
@@ -57,22 +63,31 @@ public class Admin_control {
     }
 
     @FXML
-    private void handleAddStudent() {
-        addStudent(
-                Integer.parseInt(studentId.getText()),
-                studentName.getText(),
-                studentPass.getText(),
-                prob.getText(),
-                java.getText(),
-                eng.getText(),
-                logic.getText(),
-                elec.getText(),
-                work.getText()
-        );
+    private void handleAddStudent() throws IOException, InterruptedException {
+        String nameURL = studentName.getText().replaceAll(" ",",");
+        String passwordURL = studentPass.getText().replaceAll(" ",",");
+        System.out.println(nameURL);
+        System.out.println(passwordURL);
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/admin/addStudent/"+studentId.getText()+"/"+nameURL+"/"+passwordURL)).GET().build();
+        HttpResponse response = client.send(request,HttpResponse.BodyHandlers.ofString());
+        System.out.println("Success");
+//        addStudent(
+//                Integer.parseInt(studentId.getText()),
+//                studentName.getText(),
+//                studentPass.getText(),
+//                prob.getText(),
+//                java.getText(),
+//                eng.getText(),
+//                logic.getText(),
+//                elec.getText(),
+//                work.getText()
+//        );
     }
 
     @FXML
-    private void handleAddProfessor() {
+    private void handleAddProfessor(ActionEvent event) throws IOException, InterruptedException {
+
         addProfessor(
                 Integer.parseInt(profId.getText()),
                 profName.getText(),
@@ -91,40 +106,37 @@ public class Admin_control {
 
     // Database methods (same as original)
     private void addStudent(int id, String name, String password, String prob, String java, String eng, String logic, String elec, String work) {
-        String sql = "INSERT INTO Students (ID, Name, Password, Probability, Java, English_Reports, Logic_Design, Electronics, Worshops) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            pstmt.setString(2, name);
-            pstmt.setString(3, password);
-            pstmt.setString(4, prob);
-            pstmt.setString(5, java);
-            pstmt.setString(6, eng);
-            pstmt.setString(7, logic);
-            pstmt.setString(8, elec);
-            pstmt.setString(9, work);
-            pstmt.executeUpdate();
-            System.out.println("Student added successfully.");
-        } catch (SQLException e) {
-            System.out.println("This student already exists.");
-        }
-    }
 
-    private void addProfessor(int id, String name, String password, String s1, String s2, String s3) {
-        String sql = "INSERT INTO Professors (ID, Name, Password, Subject1, Subject2, Subject3) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            pstmt.setString(2, name);
-            pstmt.setString(3, password);
-            pstmt.setString(4, s1);
-            pstmt.setString(5, s2);
-            pstmt.setString(6, s3);
-            pstmt.executeUpdate();
-            System.out.println("Professor added successfully.");
-        } catch (SQLException e) {
-            System.out.println("This professor already exists.");
-        }
+//        String sql = "INSERT INTO nourdb.Students (ID, Name, Password, Probability, Java, English_Reports, Logic_Design, Electronics, Worshops) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+//             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+//            pstmt.setInt(1, id);
+//            pstmt.setString(2, name);
+//            pstmt.setString(3, password);
+//            pstmt.setString(4, prob);
+//            pstmt.setString(5, java);
+//            pstmt.setString(6, eng);
+//            pstmt.setString(7, logic);
+//            pstmt.setString(8, elec);
+//            pstmt.setString(9, work);
+//            pstmt.executeUpdate();
+//            pstmt.close();
+//            System.out.println("Student added successfully.");
+//        } catch (SQLException e) {
+//            System.out.println("This student already exists.");
+//        }
+    }
+//(ID, Name, Password, Subject1, Subject2, Subject3)
+    private void addProfessor(int id, String name, String password, String s1, String s2, String s3) throws IOException, InterruptedException {
+        name = name.replaceAll(" ",",");
+        password = password.replaceAll(" ",",");
+        s1 = s1.replaceAll(" ",",");
+        s2 = s2.replaceAll(" ",",");
+        s3 = s3.replaceAll(" ",",");
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/admin/addProfessor/"+id+"/"+name+"/"+password+"/"+s1+"/"+s2+"/"+s3)).GET().build();
+        HttpResponse response = client.send(request,HttpResponse.BodyHandlers.ofString());
+        System.out.println("Success");
     }
 
     private String searchStudent(String identifier) {
