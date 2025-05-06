@@ -16,30 +16,10 @@ import java.io.IOException;
 
 public class SceneController {
 
-    @FXML
-    private Button backButton;
 
     private final String IMAGE_PATH = "C:\\Users\\Omnya\\IdeaProjects\\ExamsSystem1\\src\\main\\java\\org\\example\\examssystem\\WhatsApp Image 2025-05-01 at 12.02.51_3fd4dbd0.jpg";
 
     @FXML
-    public void handleBackButton(javafx.event.ActionEvent event) {
-        try {
-            // Load the main FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/examssystem/hello-view.fxml"));
-            Parent root = loader.load();
-
-            // Get the controller to ensure it's properly initialized
-            HelloController controller = loader.getController();
-
-            // Set up the background
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            setupSceneWithBackground(stage, root);
-
-        } catch (IOException e) {
-            System.err.println("Error returning to main scene: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
     // Helper method to setup scene with background
     public static void setupSceneWithBackground(Stage stage, Parent root) {
