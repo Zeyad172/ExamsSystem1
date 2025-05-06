@@ -57,7 +57,7 @@ public class Admin_control {
         Platform.runLater(() -> {
             Stage stage = (Stage) grid.getScene().getWindow();
             Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
-            stage.setX((bounds.getWidth() - stage.getWidth()) / 2);
+            stage.setX((bounds.getWidth() - stage.getWidth()) / 4);
             stage.setY((bounds.getHeight() - stage.getHeight()) / 8);
         });
     }

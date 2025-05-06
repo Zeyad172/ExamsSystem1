@@ -89,7 +89,7 @@ public class SetExam_controller implements Initializable{
 
                 ImageView background = new ImageView();
                 try {
-                    String imagePath = "D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\unnamed.jpg";
+                    String imagePath = "C:\\Users\\Omnya\\IdeaProjects\\ExamsSystem1\\src\\main\\java\\org\\example\\examssystem\\WhatsApp Image 2025-05-01 at 12.02.51_3fd4dbd0.jpg";
                     System.out.println("Loading background from: " + imagePath);
 
                     Image bgImage = new Image(new File(imagePath).toURI().toString());
@@ -130,6 +130,7 @@ public class SetExam_controller implements Initializable{
         stage.setScene(new Scene(root));
         stage.show();
     }
+
     public void Set_Exam_info() {
         id = ID.getText();  // static value set here
         this.Exam_info = Exam_Name.getValue() + ";" + Exam_Type.getValue() + ";" +

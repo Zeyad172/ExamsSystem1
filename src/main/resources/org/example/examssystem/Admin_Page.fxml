@@ -10,13 +10,18 @@
 <StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="org.example.examssystem.Admin_control"
 >
+    <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="false">
+        <image>
+            <Image url="@WhatsApp Image 2025-05-01 at 12.02.51_3fd4dbd0.jpg" />
+        </image>
+    </ImageView>
     <style>-fx-background-image: url('images/Admin.jpg');
         -fx-background-size: cover;
         -fx-background-repeat: no-repeat;
         -fx-background-position: center;
     </style>
 
-    <GridPane fx:id="grid" style="-fx-background-color: rgba(255,255,255,0.7);">
+    <GridPane fx:id="grid" style="-fx-background-color: rgba(255,255,255,0.15);">
         <padding>
             <Insets bottom="20" left="20" right="20" top="20" />
         </padding>
@@ -59,16 +64,16 @@
         <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Professor ID:" GridPane.rowIndex="12" />
         <TextField fx:id="profId" GridPane.columnIndex="1" GridPane.rowIndex="12" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Name:" GridPane.rowIndex="13" />
+        <Label style="-fx-text-fill: #dde2ec; -fx-font-weight: bold;" text="Name:" GridPane.rowIndex="13" />
         <TextField fx:id="profName" GridPane.columnIndex="1" GridPane.rowIndex="13" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Password:" GridPane.rowIndex="14" />
+        <Label style="-fx-text-fill: #dde2ec; -fx-font-weight: bold;" text="Password:" GridPane.rowIndex="14" />
         <PasswordField fx:id="profPass" GridPane.columnIndex="1" GridPane.rowIndex="14" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Subject1:" GridPane.rowIndex="15" />
+        <Label style="-fx-text-fill: #dde2ec; -fx-font-weight: bold;" text="Subject1:" GridPane.rowIndex="15" />
         <TextField fx:id="sub1" GridPane.columnIndex="1" GridPane.rowIndex="15" />
 
-        <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Subject2:" GridPane.rowIndex="16" />
+        <Label style="-fx-text-fill: #dde2ec; -fx-font-weight: bold;" text="Subject2:" GridPane.rowIndex="16" />
         <TextField fx:id="sub2" GridPane.columnIndex="1" GridPane.rowIndex="16" />
 
         <Label style="-fx-text-fill: #142547; -fx-font-weight: bold;" text="Subject3:" GridPane.rowIndex="17" />
