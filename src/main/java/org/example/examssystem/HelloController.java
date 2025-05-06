@@ -57,7 +57,7 @@ public class HelloController implements Initializable {
     public void Submit_Button(javafx.event.ActionEvent actionEvent) {
         if (CategoryComboBox.getValue().equals("Professor" )) {
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/Set_Exam.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/Professor.fxml"));
 
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
