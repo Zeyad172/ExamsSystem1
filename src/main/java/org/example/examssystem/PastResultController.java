@@ -28,11 +28,11 @@ public class PastResultController implements Initializable {
     @FXML
     protected TableView tableView = new TableView();
     @FXML
-    protected TableColumn<Result,String> nameCol = new TableColumn<>();
+    protected TableColumn<Result, String> nameCol = new TableColumn<>();
     @FXML
-    protected TableColumn<Result,String> IDCol = new TableColumn<>();
+    protected TableColumn<Result, String> IDCol = new TableColumn<>();
     @FXML
-    protected TableColumn<Result,String> scoreCol = new TableColumn<>();
+    protected TableColumn<Result, String> scoreCol = new TableColumn<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -45,36 +45,43 @@ public class PastResultController implements Initializable {
         ObjectMapper mapper;
         ArrayList<String> ButtonNames;
         try {
-             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-             mapper = new ObjectMapper();
-             ButtonNames =mapper.readValue(response.body(),new TypeReference<ArrayList<String>>(){});
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            mapper = new ObjectMapper();
+            ButtonNames = mapper.readValue(response.body(), new TypeReference<ArrayList<String>>() {
+            });
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         } catch (InterruptedException ex) {
             throw new RuntimeException(ex);
         }
-        for(String bName : ButtonNames) {
+        for (String bName : ButtonNames) {
             Button b = new Button(bName);
-            b.setOnAction(e->{
+            b.setOnAction(e -> {
                 HttpClient client2 = HttpClient.newHttpClient();
-                HttpRequest request2 = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/users/setButtonAction")).GET().build();
+                HttpRequest request2 = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/users/setButtonAction/"+b.getText())).GET().build();
                 HttpResponse<String> response2;
                 ObjectMapper mapper2;
                 ArrayList<Result> results;
                 try {
-                    response2 = client2.send(request2,HttpResponse.BodyHandlers.ofString());
+                    response2 = client2.send(request2, HttpResponse.BodyHandlers.ofString());
                     mapper2 = new ObjectMapper();
-                    results =
+                    results = mapper2.readValue(response2.body(), new TypeReference<ArrayList<Result>>() {
+                    });
+                    ObservableList tableResults = FXCollections.observableArrayList(results);
+                    tableView.setItems(tableResults);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
             });
+            vbox.getChildren().add(b);
         }
+    }
+}
 
 
-        while(rs.next()){
+        /*while(rs.next()){
                 Button b = new Button(rs.getString(1));
                 b.setOnAction(e->{
                     try {
@@ -104,5 +111,5 @@ public class PastResultController implements Initializable {
         }
 
 
-    }
-}
+    }*/
+

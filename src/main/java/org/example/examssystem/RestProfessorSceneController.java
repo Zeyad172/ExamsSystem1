@@ -3,6 +3,7 @@ package org.example.examssystem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.*;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 
 @RestController
 public class RestProfessorSceneController {
+
     @GetMapping("/users/professorAuth")
     public ArrayList<ProfessorData> professorAuth() throws ClassNotFoundException, SQLException {
         ArrayList<ProfessorData>professorsDataArraylist = new ArrayList<>();
@@ -47,8 +49,8 @@ public class RestProfessorSceneController {
         statement.close();
         return ButtonNames;
     }
-    @GetMapping("/users/setButtonAction")
-    public ArrayList<Result> getResults(String b) throws ClassNotFoundException, SQLException {
+    @GetMapping("/users/setButtonAction/{b}")
+    public ArrayList<Result> getResults(@PathVariable String b) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb","root","Elnaggar2@");
         Statement statement2 = connection2.createStatement();
