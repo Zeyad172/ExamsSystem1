@@ -24,6 +24,7 @@ public class HelloProfessor_controller {
         @FXML private Label phoneLabel;
         @FXML private Label emailLabel;
         @FXML private Label subjectsLabel;
+        public static boolean test = false;
 
     static protected String url = "jdbc:mysql://localhost:3306/mydb";
     static protected String user = "root";
@@ -57,6 +58,7 @@ public class HelloProfessor_controller {
         }
 
     public void Set_Exam(javafx.event.ActionEvent actionEvent) {
+            this.test = false;
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/Set_Exam.fxml"));
 
@@ -99,6 +101,7 @@ public class HelloProfessor_controller {
     }
 
     public void Edit_Exam(ActionEvent actionEvent) {
+            this.test = true;
 
     }
 

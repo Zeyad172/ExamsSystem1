@@ -1,13 +1,23 @@
 package org.example.examssystem;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.ComboBox;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import java.net.URL;
@@ -29,6 +39,7 @@ public class SetQues_controller implements Initializable {
     @FXML private Button finished;
     @FXML private Button next_question;
     @FXML private Button back;
+    @FXML private Button Exit;
     @FXML private Label Answer_A;
     @FXML private Label Answer_B;
     @FXML private Label Answer_C;
@@ -40,12 +51,13 @@ public class SetQues_controller implements Initializable {
     @FXML private ComboBox<String> Number_of_Answers;
     @FXML private ComboBox<String> Question_Type;
 
-    static protected String url = "jdbc:mysql://localhost:3306/mydb";
+    static protected String Url = "jdbc:mysql://localhost:3306/mydb";
     static protected String user = "root";
     static protected String password = "Elzooz3050@#";
     protected Connection con;
-
+    private boolean test=HelloProfessor_controller.test;
     ArrayList<Questions>Question_Arr=new ArrayList<>(Collections.nCopies(50, null));
+    ArrayList<Questions>get_Question_Arr=new ArrayList<>(50);
 
     private int totalQuestions=1;
     private int currentQuestion = 1;
@@ -90,7 +102,7 @@ public class SetQues_controller implements Initializable {
             Alarm.setText("You must enter the right answer");
             return;
         }
-//        for (int i = 1; i < Question_Arr.size(); i++) {
+//        for (int i = 0; i < Question_Arr.size(); i++) {
 //            if (obj.Question.equals(Question_Arr.get(i).Question)) {
 //                System.out.println("Error: Question '" + obj.Question + "' already exists!");
 //            } else {
@@ -125,9 +137,11 @@ public class SetQues_controller implements Initializable {
 
             if (currentQuestion == totalQuestions) {
                 finished.setVisible(true);
+                Exit.setVisible(true);
                 next_question.setVisible(false);
             } else {
                 finished.setVisible(false);
+                Exit.setVisible(false);
             }
         }
 
@@ -227,10 +241,10 @@ public class SetQues_controller implements Initializable {
             set_Answer_B.setVisible(false);
             set_Answer_C.setVisible(false);
             set_Answer_D.setVisible(false);
-            Answer_A.setText(" ");
-            Answer_B.setText(" ");
-            Answer_C.setText(" ");
-            Answer_D.setText(" ");
+            Answer_A.setText("");
+            Answer_B.setText("");
+            Answer_C.setText("");
+            Answer_D.setText("");
             Right_Answer.setText("Correction keys:");
         }else if (Question_Type.getValue().equals("MCQ")) {
             Number_of_Answers.setVisible(true);
@@ -271,10 +285,10 @@ public class SetQues_controller implements Initializable {
             set_Answer_B.setVisible(false);
             set_Answer_C.setVisible(false);
             set_Answer_D.setVisible(false);
-            Answer_A.setText(" ");
-            Answer_B.setText(" ");
-            Answer_C.setText(" ");
-            Answer_D.setText(" ");
+            Answer_A.setText("");
+            Answer_B.setText("");
+            Answer_C.setText("");
+            Answer_D.setText("");
             Right_Answer.setText("Correction keys:");
         } else if(obj.Type.equals("MCQ")){
             set_Question.setText(obj.Question);
@@ -338,18 +352,46 @@ public class SetQues_controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if(!test){
         finished.setVisible(false);
         back.setVisible(false);
+        Exit.setVisible(false);
         set_Answer_C.setVisible(false);
         set_Answer_D.setVisible(false);
-        Answer_C.setText(" ");
-        Answer_D.setText(" ");
+        Answer_C.setText("");
+        Answer_D.setText("");
         Number_of_Questions.setText("Question " + currentQuestion);
         Number_of_Answers.getItems().addAll( "2","3", "4");
         Number_of_Answers.setValue("2");
         set_Written_Question.setVisible(false);
         Question_Type.getItems().addAll( "MCQ", "Written" );
-        Question_Type.setValue("MCQ");
+        Question_Type.setValue("MCQ");}
+        else{
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                con = DriverManager.getConnection(Url, user, "Elzooz3050@");
+                System.out.println("Database connection established successfully!");
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM Question");
+                while(rs.next()) {
+                   Questions obj = new Questions();
+                   obj.Question = rs.getString("Question");
+                   obj.Right_Answer = rs.getString("Right_Answer");
+                   obj.Answer1 = rs.getString("AnswerA");
+                   obj.Answer2 = rs.getString("AnswerB");
+                   obj.Answer3 = rs.getString("AnswerC");
+                   obj.Answer4 = rs.getString("AnswerD");
+                   obj.Type = rs.getString("Type");
+                }
+                con.close();
+                stmt.close();
+                Alarm.setText("All questions saved successfully to Array");
+                con.close();
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, null, ex);
+                Alarm.setText("Database error");
+            }
+        }
     }
 
     public void Number_of_Answer_Box() {
@@ -384,7 +426,7 @@ public class SetQues_controller implements Initializable {
                         "Type VARCHAR(150) NULL" +
                         ")", tableName);
 
-        try (Connection conn = DriverManager.getConnection(url, user, "Elzooz3050@");
+        try (Connection conn = DriverManager.getConnection(Url, user, "Elzooz3050@");
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
             System.out.println("Table created successfully: " + tableName);
@@ -400,21 +442,34 @@ public class SetQues_controller implements Initializable {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(url, user, "Elzooz3050@");
+            con = DriverManager.getConnection(Url, user, "Elzooz3050@");
             System.out.println("Database connection established successfully!");
 
-            String sql = "INSERT INTO `" + id + "` VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pstmt = con.prepareStatement(sql);
+            String sql1 = "INSERT INTO `" + id + "` VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql2 = "INSERT INTO questions  VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement pstmt1 = con.prepareStatement(sql1);
+            PreparedStatement pstmt2 = con.prepareStatement(sql2);
 
             for (Questions obj : Question_Arr) {
-                pstmt.setString(1, obj.Question);
-                pstmt.setString(2, obj.Answer1);
-                pstmt.setString(3, obj.Answer2);
-                pstmt.setString(4, obj.Answer3);
-                pstmt.setString(5, obj.Answer4);
-                pstmt.setString(6, obj.Right_Answer);
-                pstmt.setString(7, obj.Type);
-                pstmt.executeUpdate();
+                //created table
+                pstmt1.setString(1, obj.Question);
+                pstmt1.setString(2, obj.Answer1);
+                pstmt1.setString(3, obj.Answer2);
+                pstmt1.setString(4, obj.Answer3);
+                pstmt1.setString(5, obj.Answer4);
+                pstmt1.setString(6, obj.Right_Answer);
+                pstmt1.setString(7, obj.Type);
+                pstmt1.executeUpdate();
+                //Question bank table
+                pstmt2.setString(1, obj.Question);
+                pstmt2.setString(2, obj.Answer1);
+                pstmt2.setString(3, obj.Answer2);
+                pstmt2.setString(4, obj.Answer3);
+                pstmt2.setString(5, obj.Answer4);
+                pstmt2.setString(6, obj.Right_Answer);
+                pstmt2.setString(7, obj.Type);
+                pstmt2.executeUpdate();
             }
 
             Alarm.setText("All questions saved successfully to database");
@@ -424,7 +479,6 @@ public class SetQues_controller implements Initializable {
             Alarm.setText("Database error");
         }
     }
-
 
     public void Delete_Button(ActionEvent actionEvent) {
         Questions obj = Question_Arr.get(currentQuestion);
@@ -436,5 +490,46 @@ public class SetQues_controller implements Initializable {
         set_Answer_D.setText("");
         set_Question.setText("");
         Alarm.setText("Question deleted successfully(Please Enter another one to continue)!!)");
+    }
+    public void Exit_Button(ActionEvent actionEvent) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/Hello_Professor.fxml"));
+
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            ImageView background = new ImageView();
+            try {
+                String imagePath = "D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\unnamed.jpg";
+                System.out.println("Loading background from: " + imagePath);
+
+                Image bgImage = new Image(new File(imagePath).toURI().toString());
+                background.setImage(bgImage);
+                background.setPreserveRatio(false);
+                background.setSmooth(true);
+                background.setOpacity(0.9);
+
+                System.out.println("Background loaded successfully. Dimensions: " +
+                        bgImage.getWidth() + "x" + bgImage.getHeight());
+            } catch (Exception e) {
+                System.err.println("Failed to load background:");
+                e.printStackTrace();
+            }
+            StackPane layeredPane = new StackPane();
+            layeredPane.getChildren().addAll(background, root);
+            Scene scene = new Scene(layeredPane, 800, 600);
+            background.fitWidthProperty().bind(scene.widthProperty());
+            background.fitHeightProperty().bind(scene.heightProperty());
+
+            stage.setTitle("Helwan's Exams System");
+            stage.setScene(scene);
+            stage.setMinWidth(600);
+            stage.setMinHeight(400);
+            stage.show();
+        } catch (IOException e) {
+            // Handle any errors loading the FXML
+            System.err.println("Error loading Scene2.fxml: " + e.getMessage());
+            e.printStackTrace();
+
+        }
     }
 }
