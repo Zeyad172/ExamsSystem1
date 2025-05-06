@@ -1,11 +1,11 @@
 package org.example.examssystem;
 
 public class Questions {
-    protected String Question;
-    protected String Answer1;
-    protected String Answer2;
-    protected String Answer3;
-    protected String Answer4;
-    protected String Right_Answer;
-    protected String Type;
+    public String Question;
+    public String Answer1;
+    public String Answer2;
+    public String Answer3;
+    public String Answer4;
+    public String Right_Answer;
+    public String Type;
 }

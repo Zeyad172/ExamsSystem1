@@ -9,6 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class HelloApplication extends Application {
 
@@ -18,7 +20,7 @@ public class HelloApplication extends Application {
             // 1. Load FXML interface
            Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/GUI.fxml"));
            //Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/SetQuestions.fxml"));
-            //Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/Set_Exam.fxml"));
+           //Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/Set_Exam.fxml"));
            // 2. Set up background image (absolute path)
             ImageView background = new ImageView();
             try {
@@ -70,5 +72,7 @@ public class HelloApplication extends Application {
 
     public static void main(String[] args) {
         launch(args);
+        //SetQues_controller obj=new SetQues_controller();
+        //System.out.println(obj.Question_Arr);
     }
 }
