@@ -8,29 +8,48 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 @RestController
 public class RestProfessorSceneController {
 
-    @GetMapping("/users/professorAuth")
-    public ArrayList<ProfessorData> professorAuth() throws ClassNotFoundException, SQLException {
-        ArrayList<ProfessorData>professorsDataArraylist = new ArrayList<>();
+    @GetMapping("/users/professorAuth/{username}/{password}")
+    public boolean professorAuth(@PathVariable String username,@PathVariable String password) throws ClassNotFoundException, SQLException {
+
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb","root","Elnaggar2@");
         Statement statement = connection.createStatement();
         ResultSet professorsData = statement.executeQuery("SELECT * FROM professors");
         while(professorsData.next()){
-            ProfessorData temp = new ProfessorData();
-            temp.professorID=professorsData.getString(1);
-            temp.professorPassword=professorsData.getString(2);
-            temp.subject1=professorsData.getString(3);
-            temp.subject2=professorsData.getString(4);
-            temp.subject3=professorsData.getString(5);
-            professorsDataArraylist.add(temp);
+            if(Objects.equals(professorsData.getString(1), username)&& Objects.equals(professorsData.getString(2), password))
+            {
+                professorsData.close();
+                statement.close();
+                return true;
+            }
         }
         professorsData.close();
         statement.close();
-        return professorsDataArraylist;
+        return false;
+    }
+    @GetMapping("/users/studentAuth/{username}/{password}")
+    public boolean studentAuth(@PathVariable String username,@PathVariable String password) throws ClassNotFoundException, SQLException {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb","root","Elnaggar2@");
+        Statement statement = connection.createStatement();
+        ResultSet studentsData = statement.executeQuery("SELECT * FROM students");
+        while(studentsData.next()){
+            if(Objects.equals(studentsData.getString(1), username)&& Objects.equals(studentsData.getString(2), password))
+            {
+                studentsData.close();
+                statement.close();
+                return true;
+            }
+        }
+        studentsData.close();
+        statement.close();
+        return false;
     }
     @GetMapping("/users/setButtons")
     public ArrayList<String> getButtonsNames() throws ClassNotFoundException, SQLException {

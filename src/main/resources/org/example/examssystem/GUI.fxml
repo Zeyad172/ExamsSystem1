@@ -33,11 +33,11 @@
 
       <!-- User Name -->
       <Label style="-fx-text-fill: black; -fx-font-size: 14pt;" text="User Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-      <TextField promptText="Enter User Name" style="-fx-font-size: 14pt;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+      <TextField fx:id="nameTextField" promptText="Enter User Name" style="-fx-font-size: 14pt;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
       <!-- Password -->
       <Label style="-fx-text-fill: black; -fx-font-size: 14pt;" text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-      <PasswordField promptText="Enter Your Password" style="-fx-font-size: 14pt;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <PasswordField fx:id="passwordTextField" promptText="Enter Your Password" style="-fx-font-size: 14pt;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
       <!-- Category -->
       <Label style="-fx-text-fill: black; -fx-font-size: 14pt;" text="Category:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
