@@ -36,12 +36,15 @@ import java.util.ResourceBundle;
 
 
 public class HelloController implements Initializable {
+
     @FXML private Label Alert;
     @FXML private ComboBox<String> CategoryComboBox;
     @FXML
     private Label welcomeText;
     @FXML protected TextField nameTextField ;
     @FXML protected PasswordField passwordTextField ;
+
+
 
     @FXML
     public void initializeinfo() throws SQLException {
@@ -67,9 +70,10 @@ public class HelloController implements Initializable {
     public void Submit_Button(ActionEvent actionEvent) throws IOException, InterruptedException {
         if (CategoryComboBox.getValue().equals("Professor" )) {
             System.out.println(nameTextField.getText()+","+passwordTextField.getText());
-
+            String username = nameTextField.getText().replaceAll(" ",",");
+            String password = passwordTextField.getText().replaceAll(" ",",");
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/users/professorAuth/"+nameTextField.getText()+"/"+passwordTextField.getText())).GET().build();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/users/professorAuth/"+username+"/"+password)).GET().build();
             HttpResponse response = client.send(request,HttpResponse.BodyHandlers.ofString());
             ObjectMapper mapper = new ObjectMapper();
             String flag = (String)response.body();
@@ -243,8 +247,10 @@ public class HelloController implements Initializable {
             }
         }
         else {
+            String username = nameTextField.getText().replaceAll(" ",",");
+            String password = passwordTextField.getText().replaceAll(" ",",");
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/users/studentAuth/" + nameTextField.getText() + "/" + passwordTextField.getText())).GET().build();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/users/studentAuth/" + username + "/" + password)).GET().build();
             HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
             String flag = (String) response.body();
             if (flag.equals("true")) {

@@ -15,7 +15,8 @@ public class RestProfessorSceneController {
 
     @GetMapping("/users/professorAuth/{username}/{password}")
     public boolean professorAuth(@PathVariable String username, @PathVariable String password) throws ClassNotFoundException, SQLException {
-
+        username = username.replaceAll(","," ");
+        password = password.replaceAll(","," ");
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb", "root", "Elnaggar2@");
         Statement statement = connection.createStatement();
@@ -34,7 +35,8 @@ public class RestProfessorSceneController {
 
     @GetMapping("/users/studentAuth/{username}/{password}")
     public boolean studentAuth(@PathVariable String username, @PathVariable String password) throws ClassNotFoundException, SQLException {
-
+        username = username.replaceAll(","," ");
+        password = password.replaceAll(","," ");
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb", "root", "Elnaggar2@");
         Statement statement = connection.createStatement();
