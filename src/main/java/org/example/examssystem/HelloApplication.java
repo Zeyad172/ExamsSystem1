@@ -1,5 +1,5 @@
 package org.example.examssystem;
-// The Project Will bee Perfect Enshaa Allaah;
+//this app will bee profissional enshaa alla
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,67 +8,88 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import java.io.File;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.File;
+import java.util.Objects;
+@SpringBootApplication
 public class HelloApplication extends Application {
+
+    private ImageView background;
+    private Scene scene; // Declare scene as global variable
 
     @Override
     public void start(Stage primaryStage) {
         try {
             // 1. Load FXML interface
-          // Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/GUI.fxml"));
-           //Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/SetQuestions.fxml"));
-            Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/Set_Exam.fxml"));
-           // 2. Set up background image (absolute path)
-            ImageView background = new ImageView();
-            try {
-                String imagePath = "/org/example/examssystem/unnamed.jpg";
-                System.out.println("Loading background from: " + imagePath);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/examssystem/GUI.fxml")));
 
-                Image bgImage = new Image(new File(imagePath).toURI().toString());
+            // 2. Set up responsive background image
+            background = new ImageView();
+            try {
+                Image bgImage = new Image(new File("src/main/java/org/example/examssystem/unnamed.jpg").toURI().toString());
                 background.setImage(bgImage);
                 background.setPreserveRatio(false);
                 background.setSmooth(true);
-                background.setOpacity(0.9);
-
-                System.out.println("Background loaded successfully. Dimensions: " +
-                        bgImage.getWidth() + "x" + bgImage.getHeight());
             } catch (Exception e) {
-                System.err.println("Failed to load background:");
-                e.printStackTrace();
+                System.err.println("Error loading background image: " + e.getMessage());
             }
-            // 3. Create layered interface
+
+            // 3. Set application icon
+            try {
+                Image appIcon = new Image(new File("src/main/java/org/example/examssystem/images.png").toURI().toString());
+                primaryStage.getIcons().add(appIcon);
+            } catch (Exception e) {
+                System.err.println("Error loading application icon: " + e.getMessage());
+            }
+
+            // 4. Create layered interface
             StackPane layeredPane = new StackPane();
             layeredPane.getChildren().addAll(background, root);
 
-            // 4. Create scene with responsive background
-            Scene scene = new Scene(layeredPane, 800, 600);
-            background.fitWidthProperty().bind(scene.widthProperty());
-            background.fitHeightProperty().bind(scene.heightProperty());
+            // 5. Initialize scene (global variable)
+            scene = new Scene(layeredPane, 700, 500);
+            System.out.println("NOUR WAS HERE");
+            System.out.println("NOUR WAS HERE2");
+            System.out.println("elzooz");
             
-            // 5. Set application icon
+            // 6. Load CSS
             try {
-                String iconPath = "D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\images.png";
-                Image appIcon = new Image(new File(iconPath).toURI().toString());
-                primaryStage.getIcons().add(appIcon);
-                System.out.println("Application icon set successfully from: " + iconPath);
+                String css = getClass().getResource("/org/example/examssystem/csstest.css").toExternalForm();
+                scene.getStylesheets().add(css);
             } catch (Exception e) {
-                System.err.println("Failed to load application icon:");
-                e.printStackTrace();
+                System.err.println("Error loading CSS file: " + e.getMessage());
             }
-            // 6. Configure and show stage
-            primaryStage.setTitle("Helwan's Exams System");
+
+            // 7. Set up responsive behavior
+            scene.widthProperty().addListener((obs, oldVal, newVal) ->
+                    resizeBackground(newVal.doubleValue(), scene.getHeight()));
+            scene.heightProperty().addListener((obs, oldVal, newVal) ->
+                    resizeBackground(scene.getWidth(), newVal.doubleValue()));
+
+            // 8. Configure and show stage
+            primaryStage.setTitle("Helwan Exams System");
             primaryStage.setScene(scene);
-            primaryStage.setMinWidth(600);
-            primaryStage.setMinHeight(400);
+            primaryStage.setResizable(true);
+            primaryStage.setFullScreenExitHint("Press ESC to exit fullscreen");
             primaryStage.show();
+
         } catch (Exception e) {
             System.err.println("Application startup failed:");
             e.printStackTrace();
         }
     }
 
+    private void resizeBackground(double width, double height) {
+        if (background != null && background.getImage() != null) {
+            background.setFitWidth(width);
+            background.setFitHeight(height);
+        }
+    }
+
     public static void main(String[] args) {
+        SpringApplication.run(HelloApplication.class, args);
         launch(args);
     }
 }
