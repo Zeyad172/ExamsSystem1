@@ -11,23 +11,23 @@ protected Connection con;
 
 protected DatabaseConn() {}
 
-static protected String url = "jdbc:mysql://localhost:3306/mydb";
+static protected String url = "jdbc:mysql://localhost:3306/nourdb";
 static protected String user = "root";
-static protected String pass = "Elzooz3050@#";
+static protected String pass = "Elnaggar2@";
 
 protected void createConnection() {
     try {
         // Load MySQL JDBC driver
         Class.forName("com.mysql.cj.jdbc.Driver");
-         con = DriverManager.getConnection(url,user,"Elzooz3050@");
+         con = DriverManager.getConnection(url,user,"Elnaggar2@");
 
         System.out.println("Database connection established successfully!");
         Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM Questions");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM questions");
 
         while(rs.next()) {
-            String name = rs.getString("Question");
-            String password = rs.getString("Aswera");
+            String name = rs.getString("question");
+            String password = rs.getString("choiceA");
             System.out.println(password + " " + name);
         }
         con.close();
@@ -51,8 +51,8 @@ protected void getTable(String name,String password) {
         stmt.execute(dbop);
         ResultSet rs = stmt.executeQuery("SELECT * FROM Question");
         while(rs.next()) {
-            String has = rs.getString("Question");
-            String pass = rs.getString("Aswera");
+            String has = rs.getString("question");
+            String pass = rs.getString("choiceA");
             System.out.println(password + " " + has);
         }
         con.close();

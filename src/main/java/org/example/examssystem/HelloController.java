@@ -63,7 +63,7 @@ public class HelloController implements Initializable {
 
                 ImageView background = new ImageView();
                 try {
-                    String imagePath = "D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\unnamed.jpg";
+                    String imagePath = "/org/example/examssystem/unnamed.jpg";
                     System.out.println("Loading background from: " + imagePath);
 
                     Image bgImage = new Image(new File(imagePath).toURI().toString());

@@ -32,9 +32,9 @@ public class SetExam_controller implements Initializable {
     private String Exam_info;
     public static String id;
 
-    static protected String url = "jdbc:mysql://localhost:3306/mydb";
+    static protected String url = "jdbc:mysql://localhost:3306/nourdb";
     static protected String user = "root";
-    static protected String password = "Elzooz3050@#";
+    static protected String password = "Elnaggar2@";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -70,7 +70,7 @@ public class SetExam_controller implements Initializable {
             if (response == okButton) {
                 try {
                     Class.forName("com.mysql.cj.jdbc.Driver");
-                    Connection con = DriverManager.getConnection(url, user, "Elzooz3050@");
+                    Connection con = DriverManager.getConnection(url, user, "Elnaggar2@");
 
                     System.out.println("Database connection established successfully!");
                     String sql = "INSERT INTO exams_info VALUES (?, ?, ?, ?, ?)";
@@ -103,7 +103,7 @@ public class SetExam_controller implements Initializable {
 
                     ImageView background = new ImageView();
                     try {
-                        String imagePath = "D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\unnamed.jpg";
+                        String imagePath = "/org/example/examssystem/unnamed.jpg";
                         System.out.println("Loading background from: " + imagePath);
 
                         Image bgImage = new Image(new File(imagePath).toURI().toString());

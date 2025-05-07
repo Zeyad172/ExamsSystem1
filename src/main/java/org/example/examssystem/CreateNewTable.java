@@ -11,9 +11,9 @@ public class CreateNewTable {
 UPDATE Questions SET Right_Answer='NONAMED' WHERE Question='ZYAD';
 SET SQL_SAFE_UPDATES = 1;
 * */
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/nourdb";
     private static final String USER = "root"; // e.g., "root"
-    private static final String PASS = "Elzooz3050@#";
+    private static final String PASS = "ELnaggar2@";
     public void createQuestionsTable(String tableName) {
         String sql = String.format(
                 "CREATE TABLE IF NOT EXISTS %s (" +

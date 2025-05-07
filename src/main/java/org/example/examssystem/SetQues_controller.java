@@ -51,9 +51,9 @@ public class SetQues_controller implements Initializable {
     @FXML private ComboBox<String> Number_of_Answers;
     @FXML private ComboBox<String> Question_Type;
 
-    static protected String Url = "jdbc:mysql://localhost:3306/mydb";
+    static protected String Url = "jdbc:mysql://localhost:3306/nourdb";
     static protected String user = "root";
-    static protected String password = "Elzooz3050@#";
+    static protected String password = "Elnaggar2@";
     protected Connection con;
     private boolean test=HelloProfessor_controller.test;
     ArrayList<Questions>Question_Arr=new ArrayList<>(Collections.nCopies(50, null));
@@ -369,18 +369,18 @@ public class SetQues_controller implements Initializable {
         else{
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection(Url, user, "Elzooz3050@");
+                con = DriverManager.getConnection(Url, user, "Elnaggar2@");
                 System.out.println("Database connection established successfully!");
                 Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM Question");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM questions");
                 while(rs.next()) {
                    Questions obj = new Questions();
-                   obj.Question = rs.getString("Question");
-                   obj.Right_Answer = rs.getString("Right_Answer");
-                   obj.Answer1 = rs.getString("AnswerA");
-                   obj.Answer2 = rs.getString("AnswerB");
-                   obj.Answer3 = rs.getString("AnswerC");
-                   obj.Answer4 = rs.getString("AnswerD");
+                   obj.Question = rs.getString("question");
+                   obj.Right_Answer = rs.getString("correctChoice");
+                   obj.Answer1 = rs.getString("choiceA");
+                   obj.Answer2 = rs.getString("choiceB");
+                   obj.Answer3 = rs.getString("choiceC");
+                   obj.Answer4 = rs.getString("choiceD");
                    obj.Type = rs.getString("Type");
                 }
                 con.close();
@@ -426,7 +426,7 @@ public class SetQues_controller implements Initializable {
                         "Type VARCHAR(150) NULL" +
                         ")", tableName);
 
-        try (Connection conn = DriverManager.getConnection(Url, user, "Elzooz3050@");
+        try (Connection conn = DriverManager.getConnection(Url, user, "Elnaggar2@");
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
             System.out.println("Table created successfully: " + tableName);
@@ -442,7 +442,7 @@ public class SetQues_controller implements Initializable {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(Url, user, "Elzooz3050@");
+            con = DriverManager.getConnection(Url, user, "Elnaggar2@");
             System.out.println("Database connection established successfully!");
 
             String sql1 = "INSERT INTO `" + id + "` VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -499,7 +499,7 @@ public class SetQues_controller implements Initializable {
 
             ImageView background = new ImageView();
             try {
-                String imagePath = "D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\unnamed.jpg";
+                String imagePath = "org/example/examssystem/unnamed.jpg";
                 System.out.println("Loading background from: " + imagePath);
 
                 Image bgImage = new Image(new File(imagePath).toURI().toString());

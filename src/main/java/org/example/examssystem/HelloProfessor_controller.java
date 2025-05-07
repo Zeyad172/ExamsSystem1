@@ -26,9 +26,9 @@ public class HelloProfessor_controller {
         @FXML private Label subjectsLabel;
         public static boolean test = false;
 
-    static protected String url = "jdbc:mysql://localhost:3306/mydb";
+    static protected String url = "jdbc:mysql://localhost:3306/nourdb";
     static protected String user = "root";
-    static protected String password = "Elzooz3050@#";
+    static protected String password = "Elnaggar2@";
 
         public void initialize() {
             loadDoctorInfo();
@@ -37,16 +37,16 @@ public class HelloProfessor_controller {
         private void loadDoctorInfo() {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection conn = DriverManager.getConnection(url, user, "Elzooz3050@");
+                Connection conn = DriverManager.getConnection(url, user, "Elnaggar2@");
                 Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM mydb.professor");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM nourdb.professors");
 
                 if (rs.next()) {
-                    drNameLabel.setText("Dr. Name: " + rs.getString("professorname"));
-                    usernameLabel.setText("Username: " + rs.getString("Username"));
-                    phoneLabel.setText("Phone Number: " + rs.getString("phone_Number"));
-                    emailLabel.setText("Email: " + rs.getString("E-mail"));
-                    subjectsLabel.setText("Subjects: " + rs.getString("sup1")+" - "+rs.getString("sup2") +" - "+rs.getString("sup3"));
+                    drNameLabel.setText("Dr. Name: " + rs.getString(2));
+                    usernameLabel.setText("Username: " + rs.getString(1));
+//                    phoneLabel.setText("Phone Number: " + rs.getString("phone_Number"));
+//                    emailLabel.setText("Email: " + rs.getString("E-mail"));
+                    subjectsLabel.setText("Subjects: " + rs.getString(4)+" - "+rs.getString(5) +" - "+rs.getString(6));
                 }
                 rs.close();
                 stmt.close();
@@ -66,7 +66,7 @@ public class HelloProfessor_controller {
 
             ImageView background = new ImageView();
             try {
-                String imagePath = "D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\unnamed.jpg";
+                String imagePath = "/org/example/examssystem/unnamed.jpg";
                 System.out.println("Loading background from: " + imagePath);
 
                 Image bgImage = new Image(new File(imagePath).toURI().toString());
