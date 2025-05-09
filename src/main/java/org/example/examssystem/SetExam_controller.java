@@ -15,13 +15,20 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.*;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SetExam_controller implements Initializable {
+    protected HttpClient client;
+    protected HttpRequest request;
+//    protected HttpResponse response;
     @FXML private TextField Exam_Time, ID;
     @FXML private TextField Exam_Date;
     @FXML private ComboBox<String> Exam_Type;
@@ -68,33 +75,48 @@ public class SetExam_controller implements Initializable {
         // Wait for user to click OK
         alert.showAndWait().ifPresent(response -> {
             if (response == okButton) {
+                String examName = Exam_Name.getValue().replaceAll(" ",",");
+                String id = ID.getText().replaceAll(" ",",");
+                String examTime = Exam_Time.getText().replaceAll(" ",",");
+                String examType = Exam_Type.getValue().replaceAll(" ",",");
+                String examDate = Exam_Date.getText().replaceAll(" ",",");
+                client = HttpClient.newHttpClient();
+                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/professor/setExamInformation/"+examName+"/"+id+"/"+examTime+"/"+examType+"/"+examDate)).GET().build();
                 try {
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                    Connection con = DriverManager.getConnection(url, user, "Elnaggar2@");
-
-                    System.out.println("Database connection established successfully!");
-                    String sql = "INSERT INTO exams_info VALUES (?, ?, ?, ?, ?)";
-                    PreparedStatement pstmt = con.prepareStatement(sql);
-
-                    pstmt.setString(1, Exam_Name.getValue());
-                    pstmt.setString(2, ID.getText());
-                    pstmt.setString(3, Exam_Time.getText());
-                    pstmt.setString(4, Exam_Type.getValue());
-                    pstmt.setString(5, Exam_Date.getText());
-
-                    pstmt.executeUpdate();
-                    System.out.println("Exam Information added successfully! : " + Exam_info);
-
-                    Alarm.setText("✅ Exam Information added successfully!");
-                    con.close();
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, "MySQL JDBC Driver not found", ex);
-                    Alarm.setText("❌ Failed to load database driver.");
-                } catch (SQLException ex) {
-                    Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, "Database connection failed", ex);
-                    Alarm.setText("❌ Database error");
+                    HttpResponse httpResponse = client.send(request,HttpResponse.BodyHandlers.ofString());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-
+//                try {
+//                    Class.forName("com.mysql.cj.jdbc.Driver");
+//                    Connection con = DriverManager.getConnection(url, user, "Elnaggar2@");
+//
+//                    System.out.println("Database connection established successfully!");
+//                    String sql = "INSERT INTO exams_info VALUES (?, ?, ?, ?, ?)";
+//                    PreparedStatement pstmt = con.prepareStatement(sql);
+//
+//                    pstmt.setString(1, Exam_Name.getValue());
+//                    pstmt.setString(2, ID.getText());
+//                    pstmt.setString(3, Exam_Time.getText());
+//                    pstmt.setString(4, Exam_Type.getValue());
+//                    pstmt.setString(5, Exam_Date.getText());
+//
+//                    pstmt.executeUpdate();
+//                    System.out.println("Exam Information added successfully! : " + Exam_info);
+//
+//                    Alarm.setText("✅ Exam Information added successfully!");
+//                    con.close();
+//                } catch (ClassNotFoundException ex) {
+//                    Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, "MySQL JDBC Driver not found", ex);
+//                    Alarm.setText("❌ Failed to load database driver.");
+//                } catch (SQLException ex) {
+//                    Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, "Database connection failed", ex);
+//                    Alarm.setText("❌ Database error");
+//                }
+                System.out.println("Exam Information added successfully! : " + Exam_info);
+                Alarm.setText("✅ Exam Information added successfully!");
                 Set_Exam_info();
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/SetQuestions.fxml"));

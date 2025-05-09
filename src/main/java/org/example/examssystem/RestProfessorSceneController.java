@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 public class RestProfessorSceneController {
@@ -132,6 +134,35 @@ public class RestProfessorSceneController {
             pstmt.close();
             System.out.println("Professor added successfully.");
         } catch (SQLException e) {
+
+        }
+    }
+    @GetMapping("professor/setExamInformation/{examName}/{id}/{examTime}/{examType}/{examDate}")
+    public void setExamInformation(@PathVariable String examName,@PathVariable String id,@PathVariable String examTime,@PathVariable String examDate,@PathVariable String examType){
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb", "root", "Elnaggar2@");
+
+            System.out.println("Database connection established successfully!");
+            String sql = "INSERT INTO exams_info VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+
+            pstmt.setString(1, examName);
+            pstmt.setString(2, id);
+            pstmt.setString(3, examTime);
+            pstmt.setString(4, examType);
+            pstmt.setString(5, examDate);
+
+            pstmt.executeUpdate();
+
+
+
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, "MySQL JDBC Driver not found", ex);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, "Database connection failed", ex);
 
         }
     }

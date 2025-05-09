@@ -80,7 +80,7 @@ public class HelloController implements Initializable {
             System.out.println(flag);
             if (flag.equals("true")){
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/ProfessorPage.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/Hello_Professor.fxml"));
 
                     Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 

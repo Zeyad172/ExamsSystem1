@@ -19,6 +19,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 public class HelloProfessor_controller {
+        protected Parent root;
+        protected Stage stage;
+        protected Scene scene;
         @FXML private Label drNameLabel;
         @FXML private Label usernameLabel;
         @FXML private Label phoneLabel;
@@ -105,8 +108,13 @@ public class HelloProfessor_controller {
 
     }
 
-    public void Exam_result(ActionEvent actionEvent) {
-
+    public void Exam_result(ActionEvent actionEvent) throws IOException {
+            root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/PastResult.fxml"));
+            stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setFullScreen(false);
+            stage.show();
     }
 }
 
