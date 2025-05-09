@@ -8,7 +8,7 @@ import java.sql.Statement;
 public class CreateNewTable {
 /* sql code
 * SET SQL_SAFE_UPDATES = 0;
-UPDATE Questions SET Right_Answer='NONAMED' WHERE Question='ZYAD';
+UPDATE Questions SET Right_Answer='MONAMED' WHERE Question='ZYAD';
 SET SQL_SAFE_UPDATES = 1;
 * */
     private static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";

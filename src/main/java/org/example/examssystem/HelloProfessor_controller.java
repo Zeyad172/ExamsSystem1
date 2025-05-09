@@ -24,6 +24,7 @@ public class HelloProfessor_controller {
         @FXML private Label phoneLabel;
         @FXML private Label emailLabel;
         @FXML private Label subjectsLabel;
+
         public static boolean test = false;
 
     static protected String url = "jdbc:mysql://localhost:3306/mydb";
@@ -100,8 +101,47 @@ public class HelloProfessor_controller {
         }
     }
 
-    public void Edit_Exam(ActionEvent actionEvent) {
+    public void Edit_Exam(ActionEvent event) {
             this.test = true;
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/Set_Exam.fxml"));
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            ImageView background = new ImageView();
+            try {
+                String imagePath = "D:\\EL ZOOZ JAVA\\Exams System\\src\\main\\java\\org\\example\\examssystem\\unnamed.jpg";
+                System.out.println("Loading background from: " + imagePath);
+
+                Image bgImage = new Image(new File(imagePath).toURI().toString());
+                background.setImage(bgImage);
+                background.setPreserveRatio(false);
+                background.setSmooth(true);
+                background.setOpacity(0.9);
+
+                System.out.println("Background loaded successfully. Dimensions: " +
+                        bgImage.getWidth() + "x" + bgImage.getHeight());
+            } catch (Exception e) {
+                System.err.println("Failed to load background:");
+                e.printStackTrace();
+            }
+            StackPane layeredPane = new StackPane();
+            layeredPane.getChildren().addAll(background, root);
+            Scene scene = new Scene(layeredPane, 800, 600);
+            background.fitWidthProperty().bind(scene.widthProperty());
+            background.fitHeightProperty().bind(scene.heightProperty());
+
+            stage.setTitle("Helwan's Exams System");
+            stage.setScene(scene);
+            stage.setMinWidth(600);
+            stage.setMinHeight(400);
+            stage.show();
+        } catch (IOException e) {
+            // Handle any errors loading the FXML
+            System.err.println("Error loading Scene2.fxml: " + e.getMessage());
+            e.printStackTrace();
+
+        }
 
     }
 

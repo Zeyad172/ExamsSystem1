@@ -56,8 +56,9 @@ public class SetQues_controller implements Initializable {
     static protected String password = "Elzooz3050@#";
     protected Connection con;
     private boolean test=HelloProfessor_controller.test;
+
     ArrayList<Questions>Question_Arr=new ArrayList<>(Collections.nCopies(50, null));
-    ArrayList<Questions>get_Question_Arr=new ArrayList<>(50);
+    //ArrayList<Questions>get_Question_Arr=new ArrayList<>(50);
 
     private int totalQuestions=1;
     private int currentQuestion = 1;
@@ -183,6 +184,7 @@ public class SetQues_controller implements Initializable {
             set_Answer_C.setText(obj.Answer3);
             set_Answer_D.setText(obj.Answer4);
             Question_Type.setValue("MCQ");
+            set_Written_Question.setVisible(false);
             set_Right_Answer.setText(obj.Right_Answer);
 
             set_Question.setVisible(true);
@@ -296,6 +298,7 @@ public class SetQues_controller implements Initializable {
             set_Answer_B.setText(obj.Answer2);
             set_Answer_C.setText(obj.Answer3);
             set_Answer_D.setText(obj.Answer4);
+            set_Written_Question.setVisible(false);
             set_Right_Answer.setText(obj.Right_Answer);
             Number_of_Answers.setVisible(true);
             NumberOfAnswers_lable.setVisible(true);
@@ -352,47 +355,135 @@ public class SetQues_controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if(!test){
+        Question_Type.getItems().addAll("MCQ", "Written");
+        Question_Type.setValue("MCQ");
         finished.setVisible(false);
         back.setVisible(false);
         Exit.setVisible(false);
-        set_Answer_C.setVisible(false);
-        set_Answer_D.setVisible(false);
-        Answer_C.setText("");
-        Answer_D.setText("");
         Number_of_Questions.setText("Question " + currentQuestion);
-        Number_of_Answers.getItems().addAll( "2","3", "4");
-        Number_of_Answers.setValue("2");
-        set_Written_Question.setVisible(false);
-        Question_Type.getItems().addAll( "MCQ", "Written" );
-        Question_Type.setValue("MCQ");}
-        else{
+        if (!test) {
+            set_Answer_C.setVisible(false);
+            set_Answer_D.setVisible(false);
+            Answer_C.setText("");
+            Answer_D.setText("");
+            Number_of_Answers.getItems().addAll("2", "3", "4");
+            Number_of_Answers.setValue("2");
+            set_Written_Question.setVisible(false);
+        } else {
+            String Exam_info = SetExam_controller.Exam_info;
+            System.out.println(Exam_info);
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 con = DriverManager.getConnection(Url, user, "Elzooz3050@");
                 System.out.println("Database connection established successfully!");
                 Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM Question");
-                while(rs.next()) {
-                   Questions obj = new Questions();
-                   obj.Question = rs.getString("Question");
-                   obj.Right_Answer = rs.getString("Right_Answer");
-                   obj.Answer1 = rs.getString("AnswerA");
-                   obj.Answer2 = rs.getString("AnswerB");
-                   obj.Answer3 = rs.getString("AnswerC");
-                   obj.Answer4 = rs.getString("AnswerD");
-                   obj.Type = rs.getString("Type");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM mydb.`" + Exam_info + "`");
+
+                while (rs.next()) {
+                    Questions obj = new Questions();
+                    obj.Question = rs.getString("Question");
+                    obj.Right_Answer = rs.getString("Right_Answer");
+                    obj.Answer1 = rs.getString("AnswerA");
+                    obj.Answer2 = rs.getString("AnswerB");
+                    obj.Answer3 = rs.getString("AnswerC");
+                    obj.Answer4 = rs.getString("AnswerD");
+                    obj.Type = rs.getString("Type");
+                    Question_Arr.set(index,obj);
+                    index++;
                 }
+
                 con.close();
                 stmt.close();
                 Alarm.setText("All questions saved successfully to Array");
-                con.close();
+//                rs=stmt.executeQuery("DROP TABLE mydb.`" + Exam_info + "`");
+                System.out.println(Question_Arr);
+
+
             } catch (ClassNotFoundException | SQLException ex) {
                 Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, null, ex);
                 Alarm.setText("Database error");
+                return;
+            }
+
+            set_QuestionNumber.setText(String.valueOf(index));
+            Save_number_of_questions();
+
+            if (Question_Arr.size() >= currentQuestion && currentQuestion > 0) {
+                Questions obj = Question_Arr.get(0);
+                if (obj.Type.equals("Written")) {
+                    set_Written_Question.setText(obj.Question);
+                    set_Right_Answer.setText(obj.Right_Answer);
+
+                    set_Written_Question.setVisible(true);
+                    Number_of_Answers.setVisible(false);
+                    NumberOfAnswers_lable.setVisible(false);
+                    Question_Type.setValue("Written");
+                    set_Question.setVisible(false);
+                    set_Answer_A.setVisible(false);
+                    set_Answer_B.setVisible(false);
+                    set_Answer_C.setVisible(false);
+                    set_Answer_D.setVisible(false);
+                    Answer_A.setText("");
+                    Answer_B.setText("");
+                    Answer_C.setText("");
+                    Answer_D.setText("");
+                    Right_Answer.setText("Correction keys:");
+                } else if (obj.Type.equals("MCQ")) {
+                    set_Question.setText(obj.Question);
+                    set_Answer_A.setText(obj.Answer1);
+                    set_Answer_B.setText(obj.Answer2);
+                    set_Answer_C.setText(obj.Answer3);
+                    set_Answer_D.setText(obj.Answer4);
+                    Question_Type.setValue("MCQ");
+                    set_Written_Question.setVisible(false);
+                    set_Right_Answer.setText(obj.Right_Answer);
+                    set_Question.setVisible(true);
+                    set_Answer_A.setVisible(true);
+                    set_Answer_B.setVisible(true);
+
+                    if (obj.Answer3 != null && !obj.Answer3.trim().isEmpty()) {
+                        set_Answer_C.setVisible(true);
+                        Answer_C.setVisible(true);
+                        Number_of_Answers.setValue("3");
+                    } else {
+                        set_Answer_C.setVisible(false);
+                        Answer_C.setVisible(false);
+                        set_Answer_C.clear();
+                        Number_of_Answers.setValue("2");
+                    }
+
+                    if (obj.Answer4 != null && !obj.Answer4.trim().isEmpty()) {
+                        set_Answer_D.setVisible(true);
+                        Answer_D.setVisible(true);
+                        Number_of_Answers.setValue("4");
+                    } else {
+                        set_Answer_D.setVisible(false);
+                        Answer_D.setVisible(false);
+                        set_Answer_D.clear();
+                        if (obj.Answer3 != null && !obj.Answer3.trim().isEmpty()) {
+                            set_Answer_C.setVisible(true);
+                            Answer_C.setVisible(true);
+                            Number_of_Answers.setValue("3");
+                        } else {
+                            set_Answer_C.setVisible(false);
+                            Answer_C.setVisible(false);
+                            set_Answer_C.clear();
+                            Number_of_Answers.setValue("2");
+                        }
+                    }
+                    Number_of_Answers.setVisible(true);
+                    NumberOfAnswers_lable.setVisible(true);
+                    Answer_A.setText("Answer A:");
+                    Answer_B.setText("Answer B:");
+                    Right_Answer.setText("Right Answer:");
+                    Number_of_Answer_Box();
+                }
+            } else {
+                Alarm.setText("No questions available at index " + (currentQuestion - 1));
             }
         }
     }
+
 
     public void Number_of_Answer_Box() {
         if (Number_of_Answers.getValue().equals("3")) {
@@ -437,47 +528,71 @@ public class SetQues_controller implements Initializable {
     }
 
     public void Finish_Button(ActionEvent actionEvent) {
-        String id = SetExam_controller.id;
-        createQuestionsTable(id);
+        String id="";
+       if(!test) {
+           id = SetExam_controller.id;
+       }else{
+           id = SetExam_controller.Exam_info;
+           try {
+               Class.forName("com.mysql.cj.jdbc.Driver");
+               con = DriverManager.getConnection(Url, user, "Elzooz3050@");
+               System.out.println("Database connection established successfully!");
+               Statement stmt = con.createStatement();
+               stmt.executeUpdate("DROP TABLE mydb.`" + id + "`");
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(Url, user, "Elzooz3050@");
-            System.out.println("Database connection established successfully!");
+               con.close();
+               stmt.close();
+               Alarm.setText("All questions saved successfully to Array");
 
-            String sql1 = "INSERT INTO `" + id + "` VALUES (?, ?, ?, ?, ?, ?, ?)";
-            String sql2 = "INSERT INTO questions  VALUES (?, ?, ?, ?, ?, ?, ?)";
+               System.out.println("table is deleted successfully");
 
-            PreparedStatement pstmt1 = con.prepareStatement(sql1);
-            PreparedStatement pstmt2 = con.prepareStatement(sql2);
 
-            for (Questions obj : Question_Arr) {
-                //created table
-                pstmt1.setString(1, obj.Question);
-                pstmt1.setString(2, obj.Answer1);
-                pstmt1.setString(3, obj.Answer2);
-                pstmt1.setString(4, obj.Answer3);
-                pstmt1.setString(5, obj.Answer4);
-                pstmt1.setString(6, obj.Right_Answer);
-                pstmt1.setString(7, obj.Type);
-                pstmt1.executeUpdate();
-                //Question bank table
-                pstmt2.setString(1, obj.Question);
-                pstmt2.setString(2, obj.Answer1);
-                pstmt2.setString(3, obj.Answer2);
-                pstmt2.setString(4, obj.Answer3);
-                pstmt2.setString(5, obj.Answer4);
-                pstmt2.setString(6, obj.Right_Answer);
-                pstmt2.setString(7, obj.Type);
-                pstmt2.executeUpdate();
-            }
+           } catch (ClassNotFoundException | SQLException ex) {
+               Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, null, ex);
+               Alarm.setText("Database error");
+               return;
+           }
+       }
+           createQuestionsTable(id);
 
-            Alarm.setText("All questions saved successfully to database");
-            con.close();
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, null, ex);
-            Alarm.setText("Database error");
-        }
+           try {
+               Class.forName("com.mysql.cj.jdbc.Driver");
+               con = DriverManager.getConnection(Url, user, "Elzooz3050@");
+               System.out.println("Database connection established successfully!");
+
+               String sql1 = "INSERT INTO `" + id + "` VALUES (?, ?, ?, ?, ?, ?, ?)";
+               String sql2 = "INSERT INTO questions  VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+               PreparedStatement pstmt1 = con.prepareStatement(sql1);
+               PreparedStatement pstmt2 = con.prepareStatement(sql2);
+
+               for (Questions obj : Question_Arr) {
+                   //created table
+                   pstmt1.setString(1, obj.Question);
+                   pstmt1.setString(2, obj.Answer1);
+                   pstmt1.setString(3, obj.Answer2);
+                   pstmt1.setString(4, obj.Answer3);
+                   pstmt1.setString(5, obj.Answer4);
+                   pstmt1.setString(6, obj.Right_Answer);
+                   pstmt1.setString(7, obj.Type);
+                   pstmt1.executeUpdate();
+                   //Question bank table
+                   pstmt2.setString(1, obj.Question);
+                   pstmt2.setString(2, obj.Answer1);
+                   pstmt2.setString(3, obj.Answer2);
+                   pstmt2.setString(4, obj.Answer3);
+                   pstmt2.setString(5, obj.Answer4);
+                   pstmt2.setString(6, obj.Right_Answer);
+                   pstmt2.setString(7, obj.Type);
+                   pstmt2.executeUpdate();
+               }
+
+               Alarm.setText("All questions saved successfully to database");
+               con.close();
+           } catch (ClassNotFoundException | SQLException ex) {
+               Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, null, ex);
+               Alarm.setText("Database error");
+           }
     }
 
     public void Delete_Button(ActionEvent actionEvent) {
