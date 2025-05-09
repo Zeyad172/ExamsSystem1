@@ -140,6 +140,11 @@ public class RestProfessorSceneController {
     @GetMapping("professor/setExamInformation/{examName}/{id}/{examTime}/{examType}/{examDate}")
     public void setExamInformation(@PathVariable String examName,@PathVariable String id,@PathVariable String examTime,@PathVariable String examDate,@PathVariable String examType){
         try {
+            examName=examName.replaceAll(","," ");
+            id=id.replaceAll(","," ");
+            examTime=examTime.replaceAll(","," ");
+            examType=examType.replaceAll(","," ");
+            examDate=examDate.replaceAll(","," ");
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb", "root", "Elnaggar2@");
 
