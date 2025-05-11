@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.examssystem.PastResultController">
+   <children>
+      <VBox fx:id="vbox" prefHeight="400.0" prefWidth="225.0">
+         <children>
+            <Label text="Choose Exam">
+               <font>
+                  <Font name="System Bold Italic" size="27.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <TableView fx:id="tableView" layoutX="224.0" layoutY="-1.0" prefHeight="400.0" prefWidth="376.0">
+        <columns>
+          <TableColumn fx:id="nameCol" prefWidth="75.0" text="Name" />
+          <TableColumn fx:id="IDCol" prefWidth="75.0" text="ID" />
+            <TableColumn fx:id="scoreCol" prefWidth="75.0" text="Score" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
