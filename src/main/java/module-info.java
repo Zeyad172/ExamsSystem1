@@ -5,6 +5,7 @@ module org.example.examssystem {
     requires java.sql;
     requires jdk.jdi;
     requires java.desktop;
+    requires MaterialFX;
 
     opens org.example.examssystem to javafx.fxml;
     exports org.example.examssystem;
