@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -236,6 +237,19 @@ public class RestProfessorSceneController {
             Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+    }
+    @GetMapping("student/SelectExam")
+    public ArrayList<String> getButtons() throws SQLException {
+        ArrayList<String>buttons = new ArrayList<>();
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb","root","Elnaggar2@");
+        Statement statement = con.createStatement();
+        statement.execute("USE subjectpastresults");
+        ResultSet rs = statement.executeQuery("SHOW TABLES");
+        while(rs.next()){
+            String buttonName = rs.getString(1);
+            buttons.add(buttonName);
+        }
+        return buttons;
     }
 }
 

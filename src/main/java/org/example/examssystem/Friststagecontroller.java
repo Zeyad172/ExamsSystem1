@@ -1,5 +1,8 @@
 package org.example.examssystem;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,19 +11,47 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Friststagecontroller implements Initializable {
     @FXML
+    private VBox vBox;
+    @FXML
     Button Programming,Electronics,Workshop,Probability,Tecnicalwritting,Logic;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/student/SelectExam")).GET().build();
+        try {
+            HttpResponse response = client.send(request,HttpResponse.BodyHandlers.ofString());
+            ObjectMapper mapper = new ObjectMapper();
+            ArrayList<String>buttonNames = mapper.readValue((JsonParser) response.body(),new TypeReference<ArrayList<String>>(){});
+            System.out.println(buttonNames.get(1));
+            for(int i=0 ; i<buttonNames.size();i++){
+                Button b = new Button(buttonNames.get(i));
+//                b.setOnAction( e ->{
+//                    client = HttpClient.newHttpClient();
+//                    request = HttpRequest.newBuilder().uri(URI.create()).GET().build();
+//                });
+                vBox.getChildren().add(b);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
-   }
+    }
     public void switchSceneWithData(ActionEvent event, String fxmlFile, String buttonText) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
