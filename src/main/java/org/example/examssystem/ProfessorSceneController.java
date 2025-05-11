@@ -1,6 +1,6 @@
 package org.example.examssystem;
 
-import io.github.palexdev.materialfx.controls.MFXPasswordField;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,8 +22,7 @@ public class ProfessorSceneController {
     protected Stage stage;
     @FXML
     TextField idTextField;
-    @FXML
-    MFXPasswordField mfxPasswordField;
+
     @FXML
     Button login;
 
@@ -42,22 +41,22 @@ public class ProfessorSceneController {
         stage.setScene(scene);
         stage.show();
     }
-    public void auth(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
-        String id = this.idTextField.getText();
-        String password = this.mfxPasswordField.getText();
-        boolean authSuccessfull = false;
-        System.out.println(id);
-        System.out.println(password);
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb","root","Elnaggar2@");
-        Statement statement = connection.createStatement();
-        ResultSet professorsData = statement.executeQuery("SELECT * FROM professors");
-        while(professorsData.next()){
-            if(Objects.equals(id, professorsData.getString("professorID"))&& Objects.equals(password, professorsData.getString("password"))){
-                showProfessorPage(event);
-                authSuccessfull=true;
-            }
-        }
-        if(!authSuccessfull)showAlert();
-    }
+//    public void auth(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
+//        String id = this.idTextField.getText();
+//
+//        boolean authSuccessfull = false;
+//        System.out.println(id);
+//        System.out.println(password);
+//        Class.forName("com.mysql.cj.jdbc.Driver");
+//        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb","root","Elnaggar2@");
+//        Statement statement = connection.createStatement();
+//        ResultSet professorsData = statement.executeQuery("SELECT * FROM professors");
+//        while(professorsData.next()){
+//            if(Objects.equals(id, professorsData.getString("professorID"))&& Objects.equals(password, professorsData.getString("password"))){
+//                showProfessorPage(event);
+//                authSuccessfull=true;
+//            }
+//        }
+//        if(!authSuccessfull)showAlert();
+//    }
 }

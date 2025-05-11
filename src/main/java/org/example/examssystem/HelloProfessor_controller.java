@@ -145,8 +145,12 @@ public class HelloProfessor_controller {
 
     }
 
-    public void Exam_result(ActionEvent actionEvent) {
-
+    public void Exam_result(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/PastResult.fxml"));
+        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }
 
