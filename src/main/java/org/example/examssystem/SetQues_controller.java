@@ -1,5 +1,6 @@
 package org.example.examssystem;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,11 +19,16 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 
 import java.net.URL;
 import java.sql.*;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -91,7 +97,7 @@ public class SetQues_controller implements Initializable {
         }
         Question_Arr.set(currentQuestion-1, obj);
         Alarm.setText("Question added: " + obj.Question);
-        System.out.println(Question_Arr);
+        System.out.println(Question_Arr.get(currentQuestion-1));
         // Validate required fields
         if (obj.Question.isEmpty()) {
             Alarm.setText("Error: Question cannot be empty!");
@@ -414,70 +420,80 @@ public class SetQues_controller implements Initializable {
         }
     }
 
-    public void createQuestionsTable(String tableName) {
-        String sql = String.format(
-                "CREATE TABLE IF NOT EXISTS `%s` (" +
-                        "Question VARCHAR(150) NULL, " +
-                        "AnswerA VARCHAR(150) NULL, " +
-                        "AnswerB VARCHAR(150) NULL, " +
-                        "AnswerC VARCHAR(150) NULL, " +
-                        "AnswerD VARCHAR(150) NULL, " +
-                        "Right_Answer VARCHAR(150) NULL, " +
-                        "Type VARCHAR(150) NULL" +
-                        ")", tableName);
+//    public void createQuestionsTable(String tableName) {
+//        String sql = String.format(
+//                "CREATE TABLE IF NOT EXISTS `%s` (" +
+//                        "Question VARCHAR(150) NULL, " +
+//                        "AnswerA VARCHAR(150) NULL, " +
+//                        "AnswerB VARCHAR(150) NULL, " +
+//                        "AnswerC VARCHAR(150) NULL, " +
+//                        "AnswerD VARCHAR(150) NULL, " +
+//                        "Right_Answer VARCHAR(150) NULL, " +
+//                        "Type VARCHAR(150) NULL" +
+//                        ")", tableName);
+//
+//        try (Connection conn = DriverManager.getConnection(Url, user, "Elnaggar2@");
+//             Statement stmt = conn.createStatement()) {
+//            stmt.executeUpdate(sql);
+//            System.out.println("Table created successfully: " + tableName);
+//        } catch (SQLException e) {
+//            System.err.println("Error creating table: " + e.getMessage());
+//            e.printStackTrace();
+//        }
+//    }
 
-        try (Connection conn = DriverManager.getConnection(Url, user, "Elnaggar2@");
-             Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate(sql);
-            System.out.println("Table created successfully: " + tableName);
-        } catch (SQLException e) {
-            System.err.println("Error creating table: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    public void Finish_Button(ActionEvent actionEvent) {
+    public void Finish_Button(ActionEvent actionEvent) throws IOException, InterruptedException {
         String id = SetExam_controller.id;
-        createQuestionsTable(id);
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(Url, user, "Elnaggar2@");
-            System.out.println("Database connection established successfully!");
-
-            String sql1 = "INSERT INTO `" + id + "` VALUES (?, ?, ?, ?, ?, ?, ?)";
-            String sql2 = "INSERT INTO questions  VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-            PreparedStatement pstmt1 = con.prepareStatement(sql1);
-            PreparedStatement pstmt2 = con.prepareStatement(sql2);
-
-            for (Questions obj : Question_Arr) {
-                //created table
-                pstmt1.setString(1, obj.Question);
-                pstmt1.setString(2, obj.Answer1);
-                pstmt1.setString(3, obj.Answer2);
-                pstmt1.setString(4, obj.Answer3);
-                pstmt1.setString(5, obj.Answer4);
-                pstmt1.setString(6, obj.Right_Answer);
-                pstmt1.setString(7, obj.Type);
-                pstmt1.executeUpdate();
-                //Question bank table
-                pstmt2.setString(1, obj.Question);
-                pstmt2.setString(2, obj.Answer1);
-                pstmt2.setString(3, obj.Answer2);
-                pstmt2.setString(4, obj.Answer3);
-                pstmt2.setString(5, obj.Answer4);
-                pstmt2.setString(6, obj.Right_Answer);
-                pstmt2.setString(7, obj.Type);
-                pstmt2.executeUpdate();
-            }
-
-            Alarm.setText("All questions saved successfully to database");
-            con.close();
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, null, ex);
-            Alarm.setText("Database error");
+        id = id.replaceAll(" ",",");
+        System.out.println(Question_Arr.get(1).Question);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(Question_Arr);
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/professor/createExam/"+id)).header("Content-Type","application/json").POST(HttpRequest.BodyPublishers.ofString(json)).build();
+        HttpResponse response = client.send(request,HttpResponse.BodyHandlers.ofString());
+        if(Objects.equals((String) response.body(), "true")){
+            Alarm.setText("Exam added successfully");
         }
+        else {
+            Alarm.setText("Database Error");
+        }
+
+
+
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//            con = DriverManager.getConnection(Url, user, "Elnaggar2@");
+//            System.out.println("Database connection established successfully!");
+//
+//            String sql1 = "INSERT INTO `" + id + "` VALUES (?, ?, ?, ?, ?, ?, ?)";
+//            String sql2 = "INSERT INTO questions  VALUES (?, ?, ?, ?, ?, ?, ?)";
+//
+//            PreparedStatement pstmt1 = con.prepareStatement(sql1);
+//            PreparedStatement pstmt2 = con.prepareStatement(sql2);
+//
+//            for (Questions obj : Question_Arr) {
+//                //created table
+//                pstmt1.setString(1, obj.Question);
+//                pstmt1.setString(2, obj.Answer1);
+//                pstmt1.setString(3, obj.Answer2);
+//                pstmt1.setString(4, obj.Answer3);
+//                pstmt1.setString(5, obj.Answer4);
+//                pstmt1.setString(6, obj.Right_Answer);
+//                pstmt1.setString(7, obj.Type);
+//                pstmt1.executeUpdate();
+//                //Question bank table
+//                pstmt2.setString(1, obj.Question);
+//                pstmt2.setString(2, obj.Answer1);
+//                pstmt2.setString(3, obj.Answer2);
+//                pstmt2.setString(4, obj.Answer3);
+//                pstmt2.setString(5, obj.Answer4);
+//                pstmt2.setString(6, obj.Right_Answer);
+//                pstmt2.setString(7, obj.Type);
+//                pstmt2.executeUpdate();
+//            }
+
+
+
+
     }
 
     public void Delete_Button(ActionEvent actionEvent) {

@@ -80,10 +80,13 @@ public class SetExam_controller implements Initializable {
                 String examTime = Exam_Time.getText().replaceAll(" ",",");
                 String examType = Exam_Type.getValue().replaceAll(" ",",");
                 String examDate = Exam_Date.getText().replaceAll(" ",",");
-                client = HttpClient.newHttpClient();
-                request = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.100:8080/professor/setExamInformation/"+examName+"/"+id+"/"+examTime+"/"+examType+"/"+examDate)).GET().build();
                 try {
+                    //exam date must not be notated like 26/5/2025
+                client = HttpClient.newHttpClient();
+                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/professor/setExamInformation/"+examName+"/"+id+"/"+examTime+"/"+examType+"/"+examDate)).GET().build();
+
                     HttpResponse httpResponse = client.send(request,HttpResponse.BodyHandlers.ofString());
+                    System.out.println("iam here");
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 } catch (InterruptedException e) {

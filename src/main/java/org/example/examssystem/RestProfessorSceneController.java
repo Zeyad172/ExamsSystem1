@@ -2,10 +2,12 @@ package org.example.examssystem;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -140,6 +142,7 @@ public class RestProfessorSceneController {
     @GetMapping("professor/setExamInformation/{examName}/{id}/{examTime}/{examType}/{examDate}")
     public void setExamInformation(@PathVariable String examName,@PathVariable String id,@PathVariable String examTime,@PathVariable String examDate,@PathVariable String examType){
         try {
+            System.out.println("i am inside api");
             examName=examName.replaceAll(","," ");
             id=id.replaceAll(","," ");
             examTime=examTime.replaceAll(","," ");
@@ -171,4 +174,68 @@ public class RestProfessorSceneController {
 
         }
     }
+    @PostMapping("professor/createExam/{id}")
+    public boolean createExam(@PathVariable String id, @RequestBody ArrayList<Questions>Question_Arr){
+        System.out.println("iam inside new request");
+        System.out.println(Question_Arr.get(1).Question);
+        String sql = String.format(
+                "CREATE TABLE IF NOT EXISTS `%s` (" +
+                        "Question VARCHAR(150) NULL, " +
+                        "AnswerA VARCHAR(150) NULL, " +
+                        "AnswerB VARCHAR(150) NULL, " +
+                        "AnswerC VARCHAR(150) NULL, " +
+                        "AnswerD VARCHAR(150) NULL, " +
+                        "Right_Answer VARCHAR(150) NULL, " +
+                        "Type VARCHAR(150) NULL" +
+                        ")", id);
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb", "root", "Elnaggar2@");
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sql);
+            System.out.println("Table created successfully: " + id);
+        } catch (SQLException e) {
+            System.err.println("Error creating table: " + e.getMessage());
+            e.printStackTrace();
+        }
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb", "root", "Elnaggar2@");
+            System.out.println("Database connection established successfully!");
+
+            String sql1 = "INSERT INTO `" + id + "` VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql2 = "INSERT INTO questions  VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement pstmt1 = con.prepareStatement(sql1);
+            PreparedStatement pstmt2 = con.prepareStatement(sql2);
+
+            for (Questions obj : Question_Arr) {
+                //created table
+                pstmt1.setString(1, obj.Question);
+                pstmt1.setString(2, obj.Answer1);
+                pstmt1.setString(3, obj.Answer2);
+                pstmt1.setString(4, obj.Answer3);
+                pstmt1.setString(5, obj.Answer4);
+                pstmt1.setString(6, obj.Right_Answer);
+                pstmt1.setString(7, obj.Type);
+                pstmt1.executeUpdate();
+                //Question bank table
+                pstmt2.setString(1, obj.Question);
+                pstmt2.setString(2, obj.Answer1);
+                pstmt2.setString(3, obj.Answer2);
+                pstmt2.setString(4, obj.Answer3);
+                pstmt2.setString(5, obj.Answer4);
+                pstmt2.setString(6, obj.Right_Answer);
+                pstmt2.setString(7, obj.Type);
+                pstmt2.executeUpdate();
+            }
+
+            con.close();
+            return true;
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DatabaseConn.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
 }
+
