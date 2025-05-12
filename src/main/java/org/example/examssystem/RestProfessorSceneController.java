@@ -121,6 +121,7 @@ public class RestProfessorSceneController {
 
     @GetMapping("/admin/addProfessor/{id}/{name}/{password}/{s1}/{s2}/{s3}")
     public void addProfessor(@PathVariable int id, @PathVariable String name, @PathVariable String password, @PathVariable String s1, @PathVariable String s2, @PathVariable String s3) {
+        System.out.println("ibrahim is here");
         name = name.replaceAll(","," ");
         password = password.replaceAll(","," ");
         s1 = s1.replaceAll(","," ");
