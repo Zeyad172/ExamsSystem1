@@ -33,7 +33,7 @@ public class PastResultController implements Initializable {
     protected TableColumn<Result, String> IDCol = new TableColumn<>();
     @FXML
     protected TableColumn<Result, String> scoreCol = new TableColumn<>();
-
+//bh
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nameCol.setCellValueFactory(new PropertyValueFactory<>("studentName"));
