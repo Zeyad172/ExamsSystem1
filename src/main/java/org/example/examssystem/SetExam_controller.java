@@ -39,7 +39,7 @@ public class SetExam_controller implements Initializable {
     private String Exam_info;
     public static String id;
 
-    static protected String url = "jdbc:mysql://192.168.0.100:3306/nourdb";
+    static protected String url = "jdbc:mysql://192.168.252.15:3306/nourdb";
     static protected String user = "root";
     static protected String password = "Elnaggar2@";
 
@@ -83,7 +83,7 @@ public class SetExam_controller implements Initializable {
                 try {
                     //exam date must not be notated like 26/5/2025
                 client = HttpClient.newHttpClient();
-                request = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.100:8080/professor/setExamInformation/"+examName+"/"+id+"/"+examTime+"/"+examType+"/"+examDate)).GET().build();
+                request = HttpRequest.newBuilder().uri(URI.create("http://192.168.252.15:8080/professor/setExamInformation/"+examName+"/"+id+"/"+examTime+"/"+examType+"/"+examDate)).GET().build();
 
                     HttpResponse httpResponse = client.send(request,HttpResponse.BodyHandlers.ofString());
                     System.out.println("iam here");

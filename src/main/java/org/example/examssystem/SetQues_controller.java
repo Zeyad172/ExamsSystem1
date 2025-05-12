@@ -57,7 +57,7 @@ public class SetQues_controller implements Initializable {
     @FXML private ComboBox<String> Number_of_Answers;
     @FXML private ComboBox<String> Question_Type;
 
-    static protected String Url = "jdbc:mysql://192.168.0.100:3306/nourdb";
+    static protected String Url = "jdbc:mysql://192.168.252.15:3306/nourdb";
     static protected String user = "root";
     static protected String password = "Elnaggar2@";
     protected Connection con;
@@ -449,7 +449,7 @@ public class SetQues_controller implements Initializable {
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(Question_Arr);
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.100:8080/professor/createExam/"+id)).header("Content-Type","application/json").POST(HttpRequest.BodyPublishers.ofString(json)).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.252.15:8080/professor/createExam/"+id)).header("Content-Type","application/json").POST(HttpRequest.BodyPublishers.ofString(json)).build();
         HttpResponse response = client.send(request,HttpResponse.BodyHandlers.ofString());
         if(Objects.equals((String) response.body(), "true")){
             Alarm.setText("Exam added successfully");

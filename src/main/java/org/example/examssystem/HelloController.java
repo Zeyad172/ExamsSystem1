@@ -73,7 +73,7 @@ public class HelloController implements Initializable {
             String username = nameTextField.getText().replaceAll(" ",",");
             String password = passwordTextField.getText().replaceAll(" ",",");
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.100:8080/users/professorAuth/"+username+"/"+password)).GET().build();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.252.15:8080/users/professorAuth/"+username+"/"+password)).GET().build();
             HttpResponse response = client.send(request,HttpResponse.BodyHandlers.ofString());
             ObjectMapper mapper = new ObjectMapper();
             String flag = (String)response.body();
@@ -252,7 +252,7 @@ public class HelloController implements Initializable {
             String username = nameTextField.getText().replaceAll(" ",",");
             String password = passwordTextField.getText().replaceAll(" ",",");
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.100:8080/users/studentAuth/" + username + "/" + password)).GET().build();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.252.15:8080/users/studentAuth/" + username + "/" + password)).GET().build();
             HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
             String flag = (String) response.body();
             if (flag.equals("true")) {

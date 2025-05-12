@@ -59,7 +59,7 @@ public class ProfessorSceneController {
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://192.168.0.100:8080/users/professorAuth"))
+                .uri(URI.create("http://192.168.252.15:8080/users/professorAuth"))
                 .GET()
                 .build();
 
