@@ -11,7 +11,7 @@ public class CreateNewTable {
 UPDATE Questions SET Right_Answer='NONAMED' WHERE Question='ZYAD';
 SET SQL_SAFE_UPDATES = 1;
 * */
-    private static final String DB_URL = "jdbc:mysql://192.168.252.15:3306/nourdb";
+    private static final String DB_URL = "jdbc:mysql://192.168.254.15:3306/nourdb";
     private static final String USER = "root"; // e.g., "root"
     private static final String PASS = "ELnaggar2@";
     public void createQuestionsTable(String tableName) {

@@ -31,7 +31,7 @@ public class Friststagecontroller implements Initializable {
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.252.15:8080/student/SelectExam")).GET().build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.254.15:8080/student/SelectExam")).GET().build();
         try {
             HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
             ObjectMapper mapper = new ObjectMapper();

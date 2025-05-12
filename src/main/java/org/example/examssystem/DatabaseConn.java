@@ -11,7 +11,7 @@ protected Connection con;
 
 protected DatabaseConn() {}
 
-static protected String url = "jdbc:mysql://192.168.252.15:3306/nourdb";
+static protected String url = "jdbc:mysql://192.168.254.15:3306/nourdb";
 static protected String user = "root";
 static protected String pass = "Elnaggar2@";
 

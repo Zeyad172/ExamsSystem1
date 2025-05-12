@@ -30,7 +30,7 @@ public class chooseSubjectController implements Initializable {
             throw new RuntimeException(e);
         }
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://192.168.252.15:3306/nourdb","root","Elnaggar2@");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://192.168.254.15:3306/nourdb","root","Elnaggar2@");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

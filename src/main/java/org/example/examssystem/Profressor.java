@@ -14,7 +14,7 @@ public class Profressor {
     protected String Username="root";
     protected String Password="root";
     protected int UserID;
-    protected String url = "jdbc:mysql://192.168.252.15:3306/nourdb";
+    protected String url = "jdbc:mysql://192.168.254.15:3306/nourdb";
     protected String user = "root";
     protected Connection con;
 

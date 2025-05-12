@@ -82,7 +82,7 @@ public class StageQuationcontroller implements Initializable {
       String tempDbname = dbName;//to not mess with dbName
       tempDbname = tempDbname.replaceAll(" ",",");
       HttpClient client = HttpClient.newHttpClient();
-      HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.252.15:8080/student/loadQuestions/"+tempDbname)).GET().build();
+      HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.254.15:8080/student/loadQuestions/"+tempDbname)).GET().build();
       HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
       ObjectMapper mapper = new ObjectMapper();
       ArrayList<Question>apiExam = mapper.readValue(response.body(), new TypeReference<ArrayList<Question>>() {});
@@ -270,7 +270,7 @@ public class StageQuationcontroller implements Initializable {
     }
     System.out.println(correct);
     HttpClient client = HttpClient.newHttpClient();
-    HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.252.15:8080/student/gradeExam/"+score)).GET().build();
+    HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.254.15:8080/student/gradeExam/"+score)).GET().build();
     client.send(request,HttpResponse.BodyHandlers.ofString());
   }}
 //
