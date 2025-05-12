@@ -5,7 +5,6 @@ public class Result {
     public String studentID;
     public String studentScore;
     public Result(){
-
     }
     Result(String studentName,String studentID,String studentScore){
         this.studentName=studentName;

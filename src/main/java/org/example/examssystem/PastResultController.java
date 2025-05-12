@@ -40,7 +40,7 @@ public class PastResultController implements Initializable {
         IDCol.setCellValueFactory(new PropertyValueFactory<>("studentID"));
         scoreCol.setCellValueFactory(new PropertyValueFactory<>("studentScore"));
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.254.15:8080/users/setButtons")).GET().build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/users/setButtons")).GET().build();
         HttpResponse<String> response;
         ObjectMapper mapper;
         ArrayList<String> ButtonNames;
@@ -58,7 +58,7 @@ public class PastResultController implements Initializable {
             Button b = new Button(bName);
             b.setOnAction(e -> {
                 HttpClient client2 = HttpClient.newHttpClient();
-                HttpRequest request2 = HttpRequest.newBuilder().uri(URI.create("http://192.168.254.15:8080/users/setButtonAction/"+b.getText())).GET().build();
+                HttpRequest request2 = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/users/setButtonAction/"+b.getText())).GET().build();
                 HttpResponse<String> response2;
                 ObjectMapper mapper2;
                 ArrayList<Result> results;
