@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="panel" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.examssystem.StageQuationcontroller">
+    <children>
+        <RadioButton fx:id="r1" layoutX="36.0" layoutY="108.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="242.0" text="a. " wrapText="true" />
+        <RadioButton fx:id="r2" layoutX="36.0" layoutY="132.0" mnemonicParsing="false" text="b." wrapText="true">
+            <opaqueInsets>
+                <Insets bottom="5.0" />
+            </opaqueInsets>
+        </RadioButton>
+        <RadioButton fx:id="r3" layoutX="36.0" layoutY="157.0" mnemonicParsing="false" text="c." wrapText="true">
+            <opaqueInsets>
+                <Insets bottom="5.0" />
+            </opaqueInsets>
+        </RadioButton>
+        <RadioButton fx:id="r4" layoutX="36.0" layoutY="182.0" mnemonicParsing="false" text="d." wrapText="true">
+            <opaqueInsets>
+                <Insets bottom="5.0" />
+            </opaqueInsets>
+        </RadioButton>
+        <Button fx:id="b1" layoutX="421.0" layoutY="22.0" mnemonicParsing="false" onAction="#saveAnswer" prefHeight="26.0" prefWidth="38.0" text="Q1" />
+        <Button fx:id="b2" layoutX="473.0" layoutY="22.0" mnemonicParsing="false" onAction="#saveAnswer" prefHeight="26.0" prefWidth="38.0" text="Q2" />
+        <Button fx:id="b3" layoutX="525.0" layoutY="22.0" mnemonicParsing="false" onAction="#saveAnswer" prefHeight="26.0" prefWidth="38.0" text="Q3" />
+        <Button fx:id="b4" layoutX="421.0" layoutY="49.0" mnemonicParsing="false" onAction="#saveAnswer" prefHeight="26.0" prefWidth="38.0" text="Q4" />
+        <Button fx:id="b5" layoutX="473.0" layoutY="49.0" mnemonicParsing="false" onAction="#saveAnswer" prefHeight="26.0" prefWidth="38.0" text="Q5" />
+        <Button fx:id="b6" layoutX="525.0" layoutY="49.0" mnemonicParsing="false" onAction="#saveAnswer" prefHeight="26.0" prefWidth="38.0" text="Q6" />
+        <Button fx:id="b7" layoutX="421.0" layoutY="75.0" mnemonicParsing="false" onAction="#saveAnswer" prefHeight="26.0" prefWidth="38.0" text="Q7" />
+        <Button fx:id="b8" layoutX="473.0" layoutY="75.0" mnemonicParsing="false" onAction="#saveAnswer" prefHeight="26.0" prefWidth="38.0" text="Q8" />
+        <Button fx:id="b9" layoutX="525.0" layoutY="75.0" mnemonicParsing="false" onAction="#saveAnswer" prefHeight="26.0" prefWidth="38.0" text="Q9" />
+        <Button fx:id="b10" layoutX="421.0" layoutY="104.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q10" />
+        <Button fx:id="b11" layoutX="473.0" layoutY="104.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q11" />
+        <Button fx:id="b12" layoutX="525.0" layoutY="104.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q12" />
+        <Button fx:id="b13" layoutX="421.0" layoutY="128.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q13" />
+        <Button fx:id="b14" layoutX="473.0" layoutY="128.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q14" />
+        <Button fx:id="b15" layoutX="525.0" layoutY="128.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q15" />
+        <Button fx:id="b16" layoutX="421.0" layoutY="153.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q16" />
+        <Button fx:id="b17" layoutX="473.0" layoutY="153.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q17" />
+        <Button fx:id="b18" layoutX="525.0" layoutY="153.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q18" />
+        <Button fx:id="b19" layoutX="421.0" layoutY="178.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q19" />
+        <Button fx:id="b20" layoutX="473.0" layoutY="178.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q20" />
+        <Button fx:id="b21" layoutX="525.0" layoutY="178.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q21" />
+        <Button fx:id="b22" layoutX="421.0" layoutY="200.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q22" />
+        <Button fx:id="b25" layoutX="421.0" layoutY="226.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q25" />
+        <Button fx:id="b28" layoutX="421.0" layoutY="252.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q28" />
+        <Button fx:id="b23" layoutX="473.0" layoutY="200.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q23" />
+        <Button fx:id="b26" layoutX="473.0" layoutY="226.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q26" />
+        <Button fx:id="b29" layoutX="473.0" layoutY="252.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q29" />
+        <Button fx:id="b24" layoutX="525.0" layoutY="200.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q24" />
+        <Button fx:id="b27" layoutX="525.0" layoutY="226.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q27" />
+        <Button fx:id="b30" layoutX="525.0" layoutY="252.0" mnemonicParsing="false" onAction="#saveAnswer" text="Q30" />
+        <Label fx:id="l1" layoutX="21.0" layoutY="44.0" prefHeight="58.0" prefWidth="390.0" text="Quetion" wrapText="true" />
+        <Label layoutX="-43.0" layoutY="93.0" text="Label" />
+        <Label fx:id="timerlable" layoutX="8.0" layoutY="39.0" prefHeight="18.0" prefWidth="102.0" />
+        <Button fx:id="s" layoutX="50.0" layoutY="263.0" mnemonicParsing="false" onAction="#saveAnswer" style="-fx-background-color: #2791bf;" text="save answer" wrapText="true">
+            <font>
+                <Font size="14.0" />
+            </font></Button>
+        <Button fx:id="f" layoutX="292.0" layoutY="264.0" mnemonicParsing="false" onAction="#finish_button" prefHeight="30.0" prefWidth="94.0" style="-fx-background-color: #006b08;" text="Finish Exam" textFill="#dbf2cd">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Button>
+        <Label fx:id="finish" alignment="CENTER" contentDisplay="CENTER" layoutX="144.0" layoutY="17.0" prefHeight="30.0" prefWidth="214.0" text="The Exam Finished" textFill="#d93434">
+            <font>
+                <Font size="24.0" />
+            </font></Label>
+        <Button fx:id="back" layoutX="202.0" layoutY="226.0" mnemonicParsing="false" onAction="#Back_button" prefHeight="26.0" prefWidth="94.0" style="-fx-background-color: #c98484;" text="Back" />
+    </children>
+</AnchorPane>

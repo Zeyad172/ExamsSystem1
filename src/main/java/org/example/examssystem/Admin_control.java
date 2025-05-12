@@ -18,7 +18,7 @@ import java.net.http.HttpResponse;
 import java.sql.*;
 
 public class Admin_control {
-    static final String DB_URL = "jdbc:mysql://localhost:3306/nourdb";
+    static final String DB_URL = "jdbc:mysql://192.168.0.100:3306/nourdb";
     static final String USER = "root";
     static final String PASS = "Elnaggar2@";
 
@@ -69,7 +69,7 @@ public class Admin_control {
         System.out.println(nameURL);
         System.out.println(passwordURL);
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/admin/addStudent/"+studentId.getText()+"/"+nameURL+"/"+passwordURL)).GET().build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.100:8080/admin/addStudent/"+studentId.getText()+"/"+nameURL+"/"+passwordURL)).GET().build();
         HttpResponse response = client.send(request,HttpResponse.BodyHandlers.ofString());
         System.out.println("Success");
 //        addStudent(
@@ -134,7 +134,7 @@ public class Admin_control {
         s2 = s2.replaceAll(" ",",");
         s3 = s3.replaceAll(" ",",");
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/admin/addProfessor/"+id+"/"+name+"/"+password+"/"+s1+"/"+s2+"/"+s3)).GET().build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.100:8080/admin/addProfessor/"+id+"/"+name+"/"+password+"/"+s1+"/"+s2+"/"+s3)).GET().build();
         HttpResponse response = client.send(request,HttpResponse.BodyHandlers.ofString());
         System.out.println("Success");
     }

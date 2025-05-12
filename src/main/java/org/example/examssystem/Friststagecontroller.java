@@ -31,18 +31,17 @@ public class Friststagecontroller implements Initializable {
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/student/SelectExam")).GET().build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.100:8080/student/SelectExam")).GET().build();
         try {
-            HttpResponse response = client.send(request,HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
             ObjectMapper mapper = new ObjectMapper();
-            ArrayList<String>buttonNames = mapper.readValue((JsonParser) response.body(),new TypeReference<ArrayList<String>>(){});
+            ArrayList<String>buttonNames = mapper.readValue(response.body(), new TypeReference<ArrayList<String>>(){});
             System.out.println(buttonNames.get(1));
             for(int i=0 ; i<buttonNames.size();i++){
                 Button b = new Button(buttonNames.get(i));
-//                b.setOnAction( e ->{
-//                    client = HttpClient.newHttpClient();
-//                    request = HttpRequest.newBuilder().uri(URI.create()).GET().build();
-//                });
+                b.setOnAction( e ->{
+                    handleButtonClick(e);
+               });
                 vBox.getChildren().add(b);
             }
         } catch (IOException e) {
@@ -59,6 +58,7 @@ public class Friststagecontroller implements Initializable {
 
             StageQuationcontroller controller = loader.getController();
             controller.setReceivedButtonText(buttonText);
+            StageQuationcontroller.tempdbname = buttonText;
 
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

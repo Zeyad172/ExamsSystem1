@@ -11,12 +11,15 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @RestController
 public class RestProfessorSceneController {
+    public static String studentName;
+    public static int studentID;
 
     @GetMapping("/users/professorAuth/{username}/{password}")
     public boolean professorAuth(@PathVariable String username, @PathVariable String password) throws ClassNotFoundException, SQLException {
@@ -240,16 +243,71 @@ public class RestProfessorSceneController {
     }
     @GetMapping("student/SelectExam")
     public ArrayList<String> getButtons() throws SQLException {
+        System.out.println("iam inside api");
         ArrayList<String>buttons = new ArrayList<>();
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb","root","Elnaggar2@");
         Statement statement = con.createStatement();
-        statement.execute("USE subjectpastresults");
+        statement.execute("USE subjectexams");
         ResultSet rs = statement.executeQuery("SHOW TABLES");
         while(rs.next()){
             String buttonName = rs.getString(1);
             buttons.add(buttonName);
         }
         return buttons;
+    }
+    @GetMapping("student/loadQuestions/{dbName}")
+    public ArrayList<Question> loadQuestions(@PathVariable String dbName) {
+        System.out.println("iam inside api pt2");
+        ArrayList<Question>restQuestionsArray = new ArrayList<>(50);
+        try {
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/nourdb", "root", "Elnaggar2@");
+            Statement statement = connection.createStatement();
+            statement.execute("USE subjectexams");
+            ResultSet rs = statement.executeQuery("SELECT * FROM " + dbName);
+            while (rs.next()) {
+                Question question = null;
+                if (Objects.equals(rs.getString("questionType"), "MCQ")) {
+                    question = new MCQ();
+                    question.question = rs.getString("question");
+                    question.questionType = rs.getString("questionType");
+                    question.Right_Answer = rs.getString("correctAnswer");
+                    ((MCQ) question).answerA = rs.getString("answerA");
+                    ((MCQ) question).answerB = rs.getString("answerB");
+                    ((MCQ) question).answerC = rs.getString("answerC");
+                    ((MCQ) question).answerD = rs.getString("answerD");
+                } else if (Objects.equals(rs.getString("questionType"), "TF")) {
+                    question = new TF();
+                    question.question = rs.getString("question");
+                    question.questionType = rs.getString("questionType");
+                    question.Right_Answer = rs.getString("correctAnswer");
+                    ((TF) question).answerA = rs.getString("answerA");
+                    ((TF) question).answerB = rs.getString("answerB");
+                }
+                System.out.println(question.question);
+                restQuestionsArray.add(question);
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(restQuestionsArray.get(1).questionType);
+        return restQuestionsArray;
+    }
+    @GetMapping("student/gradeExam/{score}")
+    public void setStudentResult(@PathVariable int score) throws SQLException {
+        System.out.println("iam here pt3");
+        String tempApi = StageQuationcontroller.tempdbname+"results";
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb","root","Elnaggar2@");
+        PreparedStatement statement = con.prepareStatement("INSERT INTO subjectpastresults."+StageQuationcontroller.tempdbname+"results VALUES(?,?,?)");
+
+        statement.setString(1,studentName);
+        statement.setInt(2,studentID);
+        statement.setInt(3,score);
+        statement.executeUpdate();
+        statement.close();
+        System.out.println("iam finished");
     }
 }
 

@@ -1,5 +1,8 @@
 
 package org.example.examssystem;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +19,11 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.*;
 import java.util.*;
 public class StageQuationcontroller implements Initializable {
@@ -28,12 +35,12 @@ public class StageQuationcontroller implements Initializable {
   private ToggleGroup group = new ToggleGroup();
   private int timeRemaining = 1*60 * 60;
   private Timer timer;
+  public static String tempdbname ;
   private String dbName;
   private int currentQuestionIndex,score;
   @FXML
   Label l1,timerlable,finish;
-  @FXML
-  Label answerA,AnswerB,AnswerC,AnswerD;
+
   @FXML
   RadioButton r1,r2,r3,r4;
   @FXML
@@ -44,6 +51,9 @@ public class StageQuationcontroller implements Initializable {
   Button b21, b22, b23, b24,b25,b26,b27,b28,b29,b30 ;
   @FXML
   Button s,f,back;
+  public String getDbName(){
+    return this.dbName;
+  }
   public void setReceivedButtonText(String text) {
 
     this.dbName = text;
@@ -69,31 +79,18 @@ public class StageQuationcontroller implements Initializable {
   }
   private void loadQuestionsFromDatabase() {
     try {
-      Connection connection = DriverManager.getConnection(
-              "jdbc:mysql://localhost:3306/project", "root", "mohamed2005");
-      Statement statement = connection.createStatement();
-      ResultSet rs = statement.executeQuery("SELECT * FROM `" + dbName + "`");
-      while (rs.next()) {
-        Question question = null;
-        if (Objects.equals(rs.getString("questionType"), "MCQ")) {
-          question = new MCQ();
-          question.question = rs.getString("question");
-          question.questionType = rs.getString("questionType");
-          question.Right_Answer = rs.getString("RightAnswer");
-          ((MCQ) question).answerA = rs.getString("AnswerA");
-          ((MCQ) question).answerB = rs.getString("AnswerB");
-          ((MCQ) question).answerC = rs.getString("AnswerC");
-          ((MCQ) question).answerD = rs.getString("AnswerD");
-        } else if (Objects.equals(rs.getString("questionType"), "TF")) {
-          question = new TF();
-          question.question = rs.getString("question");
-          question.questionType = rs.getString("questionType");
-          question.Right_Answer = rs.getString("RightAnswer");
-          ((TF) question).answerA = rs.getString("AnswerA");
-          ((TF) question).answerB = rs.getString("AnswerB");
+      String tempDbname = dbName;//to not mess with dbName
+      tempDbname = tempDbname.replaceAll(" ",",");
+      HttpClient client = HttpClient.newHttpClient();
+      HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.100:8080/student/loadQuestions/"+tempDbname)).GET().build();
+      HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
+      ObjectMapper mapper = new ObjectMapper();
+      ArrayList<Question>apiExam = mapper.readValue(response.body(), new TypeReference<ArrayList<Question>>() {});
+        System.out.println("first question in api exam "+apiExam.get(1).question);
+        for(int i=0;i<apiExam.size();i++){
+          currentExam.add(apiExam.get(i));
         }
-        currentExam.add(question);
-      }
+
       originalExamOrder = new ArrayList<>(currentExam);
       Collections.shuffle(currentExam);
       for (int i = 0; i < currentExam.size(); i++) {
@@ -105,8 +102,10 @@ public class StageQuationcontroller implements Initializable {
       if (!currentExam.isEmpty()) {
         showQuestion(0);
       }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    } catch (InterruptedException e) {
+        throw new RuntimeException(e);
     }
   }
   private void showQuestion(int index) {
@@ -121,16 +120,14 @@ public class StageQuationcontroller implements Initializable {
       r4.setText(((MCQ) q).answerD);
       r1.setVisible(true); r2.setVisible(true);
       r3.setVisible(true); r4.setVisible(true);
-      answerA.setVisible(true); AnswerB.setVisible(true);
-      AnswerC.setVisible(true); AnswerD.setVisible(true);
+
       back.setVisible(false);
     } else if (q instanceof TF) {
       r1.setText(((TF) q).answerA);
       r2.setText(((TF) q).answerB);
       r1.setVisible(true); r2.setVisible(true);
       r3.setVisible(false); r4.setVisible(false);
-      answerA.setVisible(true); AnswerB.setVisible(true);
-      AnswerC.setVisible(false); AnswerD.setVisible(false);
+
       back.setVisible(false);
     }
     // استرجاع الإجابة القديمة إن وُجدت
@@ -177,14 +174,20 @@ public class StageQuationcontroller implements Initializable {
           if (timeRemaining <= 0) {
             timer.cancel();
             timerlable.setText("Time's up!");
-            finishExam();
+              try {
+                  finishExam();
+              } catch (IOException e) {
+                  throw new RuntimeException(e);
+              } catch (InterruptedException e) {
+                  throw new RuntimeException(e);
+              }
           }
           timeRemaining--;
         });
       }
     }, 0, 1000);
   }
-  private void finishExam() {
+  private void finishExam() throws IOException, InterruptedException {
     System.out.println("Time's up! Submitting exam...");
     finish.setVisible(true);
     back.setVisible(true);
@@ -193,10 +196,6 @@ public class StageQuationcontroller implements Initializable {
     r3.setVisible(false);
     r4.setVisible(false);
     s.setVisible(false);
-    answerA.setVisible(false);
-    AnswerD.setVisible(false);
-    AnswerC.setVisible(false);
-    AnswerB.setVisible(false);
     f.setVisible(false);
     l1.setVisible(false);
     timerlable.setVisible(false);
@@ -206,7 +205,7 @@ public class StageQuationcontroller implements Initializable {
     gradeExam();
   }
   @FXML
-  private void finish_button (ActionEvent event) {
+  private void finish_button (ActionEvent event) throws IOException, InterruptedException {
     finishExam();
   }
   @FXML
@@ -252,7 +251,9 @@ public class StageQuationcontroller implements Initializable {
     }
 
   }
-  private void gradeExam() {
+  private void gradeExam() throws IOException, InterruptedException {
+    System.out.println(originalExamOrder.get(0).Right_Answer);
+    System.out.println(originalExamOrder.get(1).Right_Answer);
     int correct = 0;
     for (int i = 0; i < currentExam.size(); i++) {
       Question shown = currentExam.get(i);
@@ -268,6 +269,9 @@ public class StageQuationcontroller implements Initializable {
       }
     }
     System.out.println(correct);
+    HttpClient client = HttpClient.newHttpClient();
+    HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.100:8080/student/gradeExam/"+score)).GET().build();
+    client.send(request,HttpResponse.BodyHandlers.ofString());
   }}
 //
 //package org.example.examssystem;
