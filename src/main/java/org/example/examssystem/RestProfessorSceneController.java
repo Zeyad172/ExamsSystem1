@@ -180,7 +180,7 @@ public class RestProfessorSceneController {
         }
     }
     @PostMapping("professor/createExam/{id}")
-    public boolean createExam(@PathVariable String id, @RequestBody ArrayList<Questions>Question_Arr){
+    public boolean createExam(@PathVariable String id, @RequestBody ArrayList<Questions>Question_Arr) throws SQLException {
         System.out.println("iam inside new request");
         System.out.println(Question_Arr.get(1).Question);
         String sql = String.format(
@@ -193,10 +193,19 @@ public class RestProfessorSceneController {
                         "Right_Answer VARCHAR(150) NULL, " +
                         "Type VARCHAR(150) NULL" +
                         ")", id);
+        String sql3 =String.format(
+                "CREATE TABLE IF NOT EXISTS `%s` (" +
+                        "name VARCHAR(150) NULL, " +
+                        "id INT NULL, " +
+                        "score INT NULL "+
+                        ")", id+"results");
 
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb", "root", "Elnaggar2@");
              Statement stmt = conn.createStatement()) {
+            stmt.execute("USE subjectexams");
             stmt.executeUpdate(sql);
+            stmt.execute("USE subjectpastresults");
+            stmt.executeUpdate(sql3);
             System.out.println("Table created successfully: " + id);
         } catch (SQLException e) {
             System.err.println("Error creating table: " + e.getMessage());
@@ -204,7 +213,7 @@ public class RestProfessorSceneController {
         }
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb", "root", "Elnaggar2@");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/subjectexams", "root", "Elnaggar2@");
             System.out.println("Database connection established successfully!");
 
             String sql1 = "INSERT INTO `" + id + "` VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -268,22 +277,22 @@ public class RestProfessorSceneController {
             ResultSet rs = statement.executeQuery("SELECT * FROM " + dbName);
             while (rs.next()) {
                 Question question = null;
-                if (Objects.equals(rs.getString("questionType"), "MCQ")) {
+                if (Objects.equals(rs.getString(7), "MCQ")) {
                     question = new MCQ();
-                    question.question = rs.getString("question");
-                    question.questionType = rs.getString("questionType");
-                    question.Right_Answer = rs.getString("correctAnswer");
-                    ((MCQ) question).answerA = rs.getString("answerA");
-                    ((MCQ) question).answerB = rs.getString("answerB");
-                    ((MCQ) question).answerC = rs.getString("answerC");
-                    ((MCQ) question).answerD = rs.getString("answerD");
-                } else if (Objects.equals(rs.getString("questionType"), "TF")) {
+                    question.question = rs.getString(1);
+                    question.questionType = rs.getString(7);
+                    question.Right_Answer = rs.getString(6);
+                    ((MCQ) question).answerA = rs.getString(2);
+                    ((MCQ) question).answerB = rs.getString(3);
+                    ((MCQ) question).answerC = rs.getString(4);
+                    ((MCQ) question).answerD = rs.getString(5);
+                } else if (Objects.equals(rs.getString(7), "TF")) {
                     question = new TF();
-                    question.question = rs.getString("question");
-                    question.questionType = rs.getString("questionType");
-                    question.Right_Answer = rs.getString("correctAnswer");
-                    ((TF) question).answerA = rs.getString("answerA");
-                    ((TF) question).answerB = rs.getString("answerB");
+                    question.question = rs.getString(1);
+                    question.questionType = rs.getString(7);
+                    question.Right_Answer = rs.getString(6);
+                    ((TF) question).answerA = rs.getString(2);
+                    ((TF) question).answerB = rs.getString(3);
                 }
                 System.out.println(question.question);
                 restQuestionsArray.add(question);
@@ -300,7 +309,7 @@ public class RestProfessorSceneController {
     public void setStudentResult(@PathVariable int score) throws SQLException {
         System.out.println("iam here pt3");
         String tempApi = StageQuationcontroller.tempdbname+"results";
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/nourdb","root","Elnaggar2@");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/subjectpastresults","root","Elnaggar2@");
         PreparedStatement statement = con.prepareStatement("INSERT INTO subjectpastresults."+StageQuationcontroller.tempdbname+"results VALUES(?,?,?)");
 
         statement.setString(1,studentName);
