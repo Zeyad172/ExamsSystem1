@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +23,8 @@ public class HelloProfessor_controller {
         protected Parent root;
         protected Stage stage;
         protected Scene scene;
+        @FXML
+        private Button autoGen;
         @FXML private Label drNameLabel;
         @FXML private Label usernameLabel;
         @FXML private Label phoneLabel;
@@ -115,6 +118,14 @@ public class HelloProfessor_controller {
             stage.setScene(scene);
             stage.setFullScreen(false);
             stage.show();
+    }
+    public void autogen(ActionEvent event)throws IOException{
+        root = FXMLLoader.load(getClass().getResource("/org/example/examssystem/autoExam.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setFullScreen(false);
+        stage.show();
     }
 }
 

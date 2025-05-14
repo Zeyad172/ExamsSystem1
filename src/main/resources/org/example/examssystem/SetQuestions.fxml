@@ -51,5 +51,6 @@
       <ComboBox fx:id="Question_Type" layoutX="646.0" layoutY="141.0" onAction="#Question_Type_Box" prefHeight="26.0" prefWidth="142.0" promptText="Question's Type" />
       <Label layoutX="660.0" layoutY="121.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Question Type" />
       <Button fx:id="Exit" layoutX="20.0" layoutY="549.0" mnemonicParsing="false" onAction="#Exit_Button" prefHeight="26.0" prefWidth="62.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-background-color: #d90429;" text="Exit" />
+      <ComboBox fx:id="diffculty" layoutX="642.0" layoutY="359.0" prefWidth="150.0" promptText="Diffculty" />
    </children>
 </AnchorPane>

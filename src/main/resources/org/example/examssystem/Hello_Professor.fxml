@@ -15,6 +15,7 @@
             <Button onAction="#Exam_result" prefWidth="150" style="-fx-background-color: #4169e1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" text="Exam Result" />
             <Button onAction="#Edit_Exam" prefWidth="150" style="-fx-background-color: #8b0000; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" text="Edit Exam" />
         </VBox>
+      <Button fx:id="autoGen" layoutX="25.0" layoutY="246.0" onAction="#autogen" prefWidth="150" style="-fx-background-color: #d419d7; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" text="Auto generate exam" textFill="#fcfcfc" />
     </Pane>
 
     <!-- Doctor Info Area -->

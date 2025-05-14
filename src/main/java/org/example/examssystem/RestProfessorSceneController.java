@@ -217,7 +217,7 @@ public class RestProfessorSceneController {
             System.out.println("Database connection established successfully!");
 
             String sql1 = "INSERT INTO `" + id + "` VALUES (?, ?, ?, ?, ?, ?, ?)";
-            String sql2 = "INSERT INTO questions  VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql2 = "INSERT INTO questions  VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement pstmt1 = con.prepareStatement(sql1);
             PreparedStatement pstmt2 = con.prepareStatement(sql2);
@@ -240,6 +240,7 @@ public class RestProfessorSceneController {
                 pstmt2.setString(5, obj.Answer4);
                 pstmt2.setString(6, obj.Right_Answer);
                 pstmt2.setString(7, obj.Type);
+                pstmt2.setString(8,obj.diffculty);
                 pstmt2.executeUpdate();
             }
 
@@ -318,6 +319,64 @@ public class RestProfessorSceneController {
         statement.executeUpdate();
         statement.close();
         System.out.println("iam finished");
+    }
+    @GetMapping("autoExam/{examName}/{noEasy}/{noMedium}/{noHard}")
+    public void generateExam(@PathVariable String examName,@PathVariable int noEasy,@PathVariable int noMedium,@PathVariable int noHard) throws SQLException {
+        examName = examName.replaceAll(","," ");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/subjectexams","root","Elnaggar2@");
+        Statement statement = connection.createStatement();
+        ResultSet rsEasy = statement.executeQuery("SELECT * FROM questions WHERE diffculty = 'easy'");
+        ResultSet rsMedium = statement.executeQuery("SELECT * FROM questions WHERE diffculty = 'medium'");
+        ResultSet rsHard  =statement.executeQuery("SELECT * FROM questions WHERE diffculty = 'hard'");
+        String sql = String.format(
+                "CREATE TABLE IF NOT EXISTS `%s` (" +
+                        "Question VARCHAR(150) NULL, " +
+                        "AnswerA VARCHAR(150) NULL, " +
+                        "AnswerB VARCHAR(150) NULL, " +
+                        "AnswerC VARCHAR(150) NULL, " +
+                        "AnswerD VARCHAR(150) NULL, " +
+                        "Right_Answer VARCHAR(150) NULL, " +
+                        "Type VARCHAR(150) NULL" +
+                        ")", examName);
+        statement.executeUpdate(sql);
+        statement.close();
+        PreparedStatement statement1 = connection.prepareStatement("INSERT INTO "+examName+"VALUES(?,?,?,?,?,?,?)");
+        int tempEasy=0;
+        while(rsEasy.next()&&tempEasy<noEasy){
+            tempEasy++;
+            statement1.setString(1,rsEasy.getString(1));
+            statement1.setString(2,rsEasy.getString(2));
+            statement1.setString(3,rsEasy.getString(3));
+            statement1.setString(4,rsEasy.getString(4));
+            statement1.setString(5,rsEasy.getString(5));
+            statement1.setString(6,rsEasy.getString(6));
+            statement1.setString(7,rsEasy.getString(7));
+            statement1.executeUpdate();
+        }
+        int tempMedium = 0;
+        while(rsMedium.next()&&tempMedium<noMedium){
+            tempMedium++;
+            statement1.setString(1,rsMedium.getString(1));
+            statement1.setString(2,rsMedium.getString(2));
+            statement1.setString(3,rsMedium.getString(3));
+            statement1.setString(4,rsMedium.getString(4));
+            statement1.setString(5,rsMedium.getString(5));
+            statement1.setString(6,rsMedium.getString(6));
+            statement1.setString(7,rsMedium.getString(7));
+            statement1.executeUpdate();
+        }
+        int tempHard=0;
+        while(rsHard.next()&&tempHard<noHard){
+            tempHard++;
+            statement1.setString(1,rsHard.getString(1));
+            statement1.setString(2,rsHard.getString(2));
+            statement1.setString(3,rsHard.getString(3));
+            statement1.setString(4,rsHard.getString(4));
+            statement1.setString(5,rsHard.getString(5));
+            statement1.setString(6,rsHard.getString(6));
+            statement1.setString(7,rsHard.getString(7));
+            statement1.executeUpdate();
+        }
     }
 }
 

@@ -34,6 +34,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SetQues_controller implements Initializable {
+    @FXML private ComboBox<String> diffculty;
     @FXML private TextField  set_QuestionNumber;
     @FXML private Label Number_of_Questions;
     @FXML private TextField set_Question;
@@ -94,6 +95,7 @@ public class SetQues_controller implements Initializable {
             }
             obj.Type = Question_Type.getValue();
             obj.Right_Answer = set_Right_Answer.getText();
+            obj.diffculty = diffculty.getValue();
         }
         Question_Arr.set(currentQuestion-1, obj);
         Alarm.setText("Question added: " + obj.Question);
@@ -183,6 +185,7 @@ public class SetQues_controller implements Initializable {
             Answer_D.setText("");
             Right_Answer.setText("Correction keys:");
         } else if (obj.Type.equals("MCQ")) {
+            diffculty.setValue("easy");
             set_Question.setText(obj.Question);
             set_Answer_A.setText(obj.Answer1);
             set_Answer_B.setText(obj.Answer2);
@@ -370,6 +373,7 @@ public class SetQues_controller implements Initializable {
         Number_of_Answers.getItems().addAll( "2","3", "4");
         Number_of_Answers.setValue("2");
         set_Written_Question.setVisible(false);
+        diffculty.getItems().addAll("easy","medium","hard");
         Question_Type.getItems().addAll( "MCQ", "Written" );
         Question_Type.setValue("MCQ");}
         else{

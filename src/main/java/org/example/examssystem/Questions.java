@@ -8,4 +8,5 @@ public class Questions {
     public String Answer4;
     public String Right_Answer;
     public String Type;
+    public String diffculty;
 }
