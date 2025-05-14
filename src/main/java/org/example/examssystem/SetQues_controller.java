@@ -57,7 +57,7 @@ public class SetQues_controller implements Initializable {
     @FXML private TextArea set_Written_Question;
     @FXML private ComboBox<String> Number_of_Answers;
     @FXML private ComboBox<String> Question_Type;
-
+//nour
     static protected String Url = "jdbc:mysql://192.168.252.15:3306/nourdb";
     static protected String user = "root";
     static protected String password = "Elnaggar2@";
